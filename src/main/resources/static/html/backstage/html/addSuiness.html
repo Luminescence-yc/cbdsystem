@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加企业</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script rel="script" src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../css/suiness/addSuiness.css">
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .layui-form-label{
+            width: 200px;
+        }
+        .layui-input-block{
+            margin-left: 230px;
+        }
+        .layui-form{
+            width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-content-wrap clearfix">
+    <h1>添加企业</h1>
+    <form class="layui-form">
+        <div class="layui-tab">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item"></div>
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业登录名：</label>
+                        <div class="layui-input-block">
+                            <input id="username" type="text" name="username" required lay-verify="required" placeholder="请输入企业登录名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业登录密码：</label>
+                        <div class="layui-input-block">
+                            <input id="password" type="text" name="password" required lay-verify="required" placeholder="请输入企业登录密码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业名称：</label>
+                        <div class="layui-input-block">
+                            <input id="companyName" type="text" name="companyName" required lay-verify="required" placeholder="请输入企业名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业楼层位置：</label>
+                        <div class="layui-input-block">
+                            <input id="floor" type="text" name="floor" required lay-verify="required" placeholder="请输入企业楼层位置：" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业联系人：</label>
+                        <div class="layui-input-block">
+                            <input id="contactPerson" type="text" name="contactPerson" required lay-verify="required" placeholder="请输入企业联系人" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业联系人电话：</label>
+                        <div class="layui-input-block">
+                            <input id="tel" type="text" name="tel" required lay-verify="required" placeholder="请输入企业联系人电话" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-tab-item">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="padding-left: 10px;">
+            <div class="layui-input-block">
+                <button id="addBtn" class="layui-btn layui-btn-normal addBtn" style="width: 120px;margin-left: -20px" type="submit">添加</button>
+                <button class="layui-btn layui-btn-normal back" style="width: 120px;" id="back" >返回</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
+
+<script>
+    //Demo
+    $(function () {
+        layui.use(['form','layer'], function() {
+            var form = layui.form;
+            form.render();
+            //监听提交
+            form.on('submit(formDemo)', function(data) {
+                window.parent.layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+            let companyName,username,password,floor,contactPerson,tel;
+            //添加按钮
+            $(".addBtn").click(function () {
+                companyName=document.getElementById("companyName").value;
+                username=document.getElementById("username").value;
+                floor=document.getElementById("floor").value;
+                contactPerson=document.getElementById("contactPerson").value;
+                tel=document.getElementById("tel").value;
+                password=document.getElementById( "password").value;
+                drug();
+                window.parent.layer.closeAll();//关闭弹窗
+                window.parent.layer.msg("添加成功");
+            });
+            //返回按钮
+            $(".back").click(function () {
+                window.parent.layer.closeAll();//关闭弹窗
+            });
+            function drug() {
+                $.ajax({
+                    type: "post",
+                    url: "/company/addCompany",
+                    dataType: "json",
+                    data: {
+                        companyName:companyName,username:username,password:password
+                        ,floor:floor,contactPerson:contactPerson,tel:tel
+                    }
+                });
+            }
+        });
+    })
+</script>

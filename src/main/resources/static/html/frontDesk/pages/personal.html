@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/personal.css">
+</head>
+<body>
+<div class="centerBox">
+    <div class="inputBox">
+        <div>
+            <label>用户名</label><input id="username" class="form-control username" type="text" disabled>
+        </div>
+        <div>
+            <label>真实姓名</label><input id="realName" class="form-control realName" type="text" disabled>
+        </div>
+        <div>
+            <label>地址</label><input id="address" class="form-control addr" type="text" disabled>
+        </div>
+        <div>
+            <label>联系电话</label><input id="tel" class="form-control tel" type="text" disabled>
+        </div>
+    </div>
+    <div class="inputBox">
+        <div>
+            <label>身份证号</label><input id="idCard" class="form-control idCard" type="text" disabled>
+        </div>
+        <div>
+            <label>职业描述</label><input id="profession" class="form-control profession" type="text" disabled>
+        </div>
+        <div>
+            <label>邮箱地址</label><input id="email" class="form-control email" type="text" disabled>
+        </div>
+
+        <button id="btn_info" type="button" style="margin-left: 100px;width: 100px;"
+                class="btn btn-default btn-primary " aria-hidden="true" data-toggle="modal" data-target="#myModal">
+            修改信息
+        </button>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">修改个人信息<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <form action="" id="updateForm">
+                        <div class="inputBox">
+                            <input id="personalId" type="text" style="display: none">
+                            <div>
+                                <label>用户名</label><input id="username1" class="form-control username" type="text"
+                                                         disabled>
+                            </div>
+                            <div>
+                                <label>真实姓名</label><input id="realName1" class="form-control realName" type="text"
+                                                          disabled>
+                            </div>
+                            <div>
+                                <label>地址</label><input id="address1" class="form-control address" type="text">
+                            </div>
+                            <div>
+                                <label>联系电话</label><input id="tel1" class="form-control tel" type="text">
+                            </div>
+                            <div>
+                                <label>身份证号</label><input id="idCard1" class="form-control idCard" type="text" disabled>
+                            </div>
+                            <div>
+                                <label>密码</label><input id="password" class="form-control idCard" type="password">
+                            </div>
+                            <div>
+                                <label>职业描述</label><input id="profession1" class="form-control profession" type="text">
+                            </div>
+                            <div>
+                                <label>邮箱地址</label><input id="email1" class="form-control email" type="text">
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="updatePersonal">修改</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="exit">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/personal.js"></script>
+</body>
+</html>

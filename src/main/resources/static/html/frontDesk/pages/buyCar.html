@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <style>
+        #btnBox > a {
+            margin: 30px 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="btnBox">
+    <a href="javascript:window.location.href='rentalMarket.html'">
+        <button type="button" class="btn btn-lg" id="btn1">招租交易</button>
+    </a>
+    <a href="javascript:window.location.href='leaseReservation.html'">
+        <button type="button" class="btn btn-lg" id="btn2">租赁交易</button>
+    </a>
+    <a href="javascript:window.location.href='buyCar.html'">
+        <button type="button" class="btn btn-primary btn-lg" id="btn3">买车交易</button>
+    </a>
+    <a href="javascript:window.location.href='sellCar.html'">
+        <button type="button" class="btn btn-lg" id="btn4">卖车交易</button>
+    </a>
+</div>
+<div>
+    <div>
+        <div>
+            <table id="table_1"></table>
+        </div>
+        <div id="toolbar" class="btn-group">
+            <button class="btn btn-default" data-toggle="modal" data-target="#myModal" id="btn_info">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>查看合同
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <label>合同编号:<p><span id="1"></span></p></label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div>
+                        <div>
+                            <label>出售方用户名：<p><span id="2"></span></p></label>
+                        </div>
+                        <div>
+                            <label>出售方姓名：<p><span id="3"></span></p></label>
+                        </div>
+                        <div>
+                            <label>出售方身份证：<p><span id="4"></span></p></label>
+                        </div>
+                        <div>
+                            <label>出售方电话号码：<p><span id="5"></span></p></label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <label>购买方用户名：<p><span id="6"></span></p></label>
+                        </div>
+                        <div>
+                            <label>购买方姓名：<p><span id="7"></span></p></label>
+                        </div>
+                        <div>
+                            <label>购买方身份证：<p><span id="8"></span></p></label>
+                        </div>
+                        <div>
+                            <label>购买方电话号码：<p><span id="9"></span></p></label>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div>
+                    <div>
+                        <label>车位地址：<p><span id="10"></span></p></label>
+                    </div>
+                    <div>
+                        <label>车位产权号：<p><span id="11"></span></p></label>
+                    </div>
+                    <div>
+                        <label>交易价格：<p><span id="12"></span></p></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="determine" class="btn btn-primary">同意</button>
+                <button type="button" id="refused" class="btn btn-primary">拒绝</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+</body>
+<!--<script src="../js/jquery.nicescroll.js"></script>-->
+<script src="../js/jquery-3.3.1.min.js"></script>
+<!--<script src="../js/scripts.js"></script>-->
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script>
+    $(function () {
+        //1.初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //2.初始化Button的点击事件
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+    });
+
+    var sellId;
+    var i1;
+    var status;
+    var TableInit = function init() {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#table_1').bootstrapTable({
+                url: '/sellParking/getBuyParkingByPage',         //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                onLoadSuccess: function () {
+                    $("#ifm", parent.document).attr("height", $(document).height());
+                },
+                queryParams: function (params) {
+                    return {
+                        size: params.limit,                         //页面大小
+                        current: (params.offset / params.limit) + 1,   //页码
+                        personalId: 1 //需要修改为session中获取登录用户的ID
+                    }
+
+                },//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端.
+                strictSearch: true,
+                showRefresh: true,                  //是否显示刷新按钮
+                clickToSelect: true,                //是否启用点击选中行
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+
+                columns: [{
+                    field: 'parkingBean.address',
+                    title: '车位所在小区地址'
+                }, {
+                    field: 'parkingBean.areaNum',
+                    title: '区域编号'
+                }, {
+                    field: 'parkingBean.parkingNum',
+                    title: '车位号码'
+                }, {
+                    field: 'sellPrice',
+                    title: '出售价格'
+                }, {
+                    field: 'sellStatus',
+                    title: '出售状态'
+                }, {
+                    field: 'releaseTime',
+                    title: '发布时间'
+                }],
+                responseHandler: function (res) {
+                    // console.log(res);
+                    return {
+                        //数据总条数
+                        "total": res.data.page.total,
+                        //获取的数据
+                        "rows": res.data.page.records
+                    }
+                },
+                onLoadError: function () {
+                    // alert("数据加载失败！");
+                },
+                onDblClickRow: function (row, $element) {
+                    var id = row.ID;
+                    EditViewById(id, 'view');
+                },
+                onClickRow: function (row, $element) {
+                    $('.info').removeClass('info');
+                    $($element).addClass('info');
+                    console.log(row)
+                    sellId = row.id;
+                    status = row.sellStatus;
+                    i1 = row.parkingBean.id;
+                },
+            });
+        };
+        return oTableInit;
+    };
+
+    var a0;
+    var a1;
+    var a2;
+    var a3;
+    var a4;
+    var a5;
+    var a6;
+    var a7;
+    var a8;
+    var a9;
+    var a10;
+    var contractId;
+    var sellPersonalId;
+    $("#btn_info").click(function () {
+        if (sellId == null) {
+            alert("请选中行")
+            return false;
+        } else {
+            if (status == "交易中") {
+                $.ajax({
+                    type: "post",
+                    url: "../../../contract/findAllBySellId",
+                    dataType: "json",
+                    async: true,
+                    data: {
+                        id: sellId
+                    },
+                    success: function (data) {
+                        a0 = data.data.contract.seller.username;
+                        $("#2").html(a0)
+                        a1 = data.data.contract.seller.relName;
+                        $("#3").html(a1)
+                        a2 = data.data.contract.seller.idCard;
+                        $("#4").html(a2)
+                        a3 = data.data.contract.seller.tel;
+                        $("#5").html(a3)
+                        a4 = data.data.contract.buyer.username;
+                        $("#6").html(a4)
+                        a5 = data.data.contract.buyer.relName;
+                        $("#7").html(a5)
+                        a6 = data.data.contract.buyer.idCard;
+                        $("#8").html(a6)
+                        a7 = data.data.contract.buyer.tel;
+                        $("#9").html(a7)
+                        a8 = data.data.contract.sellParkingBean.parkingBean.address;
+                        $("#10").html(a8)
+                        a9 = data.data.contract.sellParkingBean.parkingBean.propertyNum;
+                        $("#11").html(a9)
+                        a10 = data.data.contract.sellParkingBean.sellPrice;
+                        $("#12").html(a10)
+                        contractId = data.data.contract.id
+                        sellPersonalId = data.data.contract.seller.id;
+                    }
+                });
+            } else {
+                alert("该车位还在出售中")
+                return false;
+            }
+        }
+    })
+
+    $("#determine").click(function () {
+        $.ajax({
+            type: "post",
+            url: "../../../contract/updateBuyerAgree",
+            dataType: "json",
+            data: {
+                id: contractId,
+                buyerAgree:1,
+                sellPersonalId: sellPersonalId,
+                sellParkingId: sellId,
+            },
+            success: function (data) {
+                if (data.message == "ok") {
+                    alert("同意成功")
+                    window.location.href = "buyCar.html"
+                } else {
+                    alert("交易失败")
+                    window.location.href = "buyCar.html"
+                }
+            }
+        });
+    })
+
+    $("#refused").click(function () {
+        $.ajax({
+            type: "post",
+            url: "../../../contract/deleteContractById",
+            dataType: "json",
+            data: {
+                id: contractId,
+                sellParkingId: sellId,
+            },
+            success: function (data) {
+                if (data.message == "ok") {
+                    alert("拒绝成功")
+                    window.location.href = "buyCar.html"
+                } else {
+                    alert("拒绝失败")
+                    window.location.href = "buyCar.html"
+                }
+            }
+        });
+    })
+
+    var ButtonInit = function () {
+        var oInit = new Object();
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+            $("#btn_info").click(function () {
+                //获取选择行的数据
+                var arrselections = $("#table_1").bootstrapTable('getSelections');
+            });
+        }
+        return oInit;
+    }
+</script>
+</html>

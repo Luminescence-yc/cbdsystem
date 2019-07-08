@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人账单</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+
+</head>
+<body>
+<table id="tb"></table>
+
+<div style="padding: 50px;">
+    <div style="float: left;width: 150px;">
+        <p>总笔数：<span id="total_number"></span></p>
+        <p>总支出：<span id="total_out"></span></p>
+        <p>总收入：<span id="total_in"></span></p>
+    </div>
+    <div style="float: right;width: 200px;" class="input-group">
+        <div class="input-group">
+            <div class="input-group-addon">开始日期</div>
+            <input type="text" class="form-control form_datetime" id="startTime">
+        </div>
+        <br/>
+        <div class="input-group">
+            <div class="input-group-addon ">结束日期</div>
+            <input type="text" class="form-control form_datetime" id="endTime">
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary" id="searchBtn">查询</button>
+
+    </div>
+
+</div>
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/finance.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+</body>
+</html>

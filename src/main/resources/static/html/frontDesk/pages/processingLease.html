@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租赁预定用户信息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+</head>
+<body>
+    <table id="table"></table>
+    <button type="submit" class="btn btn-primary" style="margin-left: 500px" id="btn">成交</button>
+    <button type="submit" class="btn btn-primary" style="margin-left: 100px" id="return">返回</button>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/bootstrap-table.min.js"></script>
+    <script>
+        $(function () {
+            var ids=window.location.href.split("?")[1];
+            var rentId = ids.split("&")[0];
+            var parkingId = ids.split("&")[1];
+            // console.log(id)
+            var messageId;
+            var userId;
+            $("#table").bootstrapTable({
+                url:"/rentMessage/getRentParkingByAll",//请求的url地址
+                method:"post",//请求方式
+                // striped:true,//是否显示行间隔色
+                pageSize:10,//每页显示的数量
+                pageList: [10,20],//提供选择每页显示多少条
+                showRefresh:false,//是否显示刷新按钮
+                cache:false,//是否使用缓存
+                showToggle:false,//是否显示详细视图和列表视图的切换按钮
+                pagination:true,//是否显示分页
+                height:500,//表格的高度
+                pageNumber:1,//初始化显示第几页，默认第1页
+                singleSelect:true,//复选框只能选择一条记录
+                sidePagination : 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+                contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+                dataType:"json",//接收的数据类型
+                queryParamsType:'limit',//参数格式，发送标准的Restful类型的请求
+                //得到查询参数即发给服务端的参数
+                queryParams:function(params){
+                    var nowPage=params.offset;
+                    return{
+                        page: (params.offset/params.limit)+1,//第几页
+                        size: params.limit,//每页显示多少条
+                        rentId:rentId,
+                        parkingId:parkingId
+                    }
+                },
+                onClickRow:function (row,$element) {
+                    $('.info').removeClass('info');
+                    $($element).addClass('info');
+                    messageId=row.id;
+                    userId=row.personalEntity.id;
+                },
+                onLoadSuccess:function(){
+                    $("#ifm",parent.document).attr("height",$(document).height());
+                },
+                //回调函数
+                responseHandler:function(res){
+                    return{
+                        "total":res.data.page.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                        "rows":res.data.page.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                    }
+                },
+                columns:[
+                    // {field: "select", checkbox: true},//开启选择框
+                    {field:"id", title:"用户名",formatter:function (value,row, index) {
+                            return row.personalEntity.id
+                        }},
+                    {field:"username", title:"用户名",formatter:function (value,row, index) {
+                            return row.personalEntity.username
+                        }},
+                    {field:"jobDescription", title:"职业",formatter:function (value,row, index) {
+                            return row.personalEntity.jobDescription
+                        }},//表头，其中field值是返回JSON格式中对应的属性
+                    {field:"tel", title:"电话",formatter:function (value,row, index) {
+                            return row.personalEntity.tel
+                        }},
+                    {field:"complainNum", title:"信誉度",formatter:function (value,row, index) {
+                            return row.personalEntity.complainNum/row.personalEntity.tradeNum
+                        }},
+                    {field:"rentMessage", title:"留言"}]
+            });
+            $("#btn").click(function () {
+                $.ajax({
+                    type:"post",
+                    url:"/rentMessage/deleteMessageAndRentPark",
+                    data:{"messageId":messageId,"rentId":rentId,"userId":userId},
+                    dataType:"json",
+                    success:function (data) {
+                        console.log(data)
+                        if(data.message=="ok"){
+                            alert("成交成功")
+                            window.location.href="rentalMarket.html"
+                        }
+                    }
+                })
+            })
+            $("#return").click(function () {
+                window.location.href="rentalMarket.html";
+            })
+        });
+    </script>
+</body>
+</html>

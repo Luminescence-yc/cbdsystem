@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出售市场</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <style>
+        .input-group {
+            margin: 20px;
+            width: 344px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align:center;">出售市场</h1>
+
+<table id="tb"></table>
+
+<div style="float: right;">
+    <div class="input-group">
+        <div class="input-group-addon">发布时间&nbsp;</div>
+        <div style="float: left;">
+            <input class="form-control form_datetime" id="startTime" type="text" value="" readonly="readonly" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+        <div style="float: left;"><h4>&nbsp; ~ &nbsp;</h4></div>
+        <div style="float: left;">
+            <input class="form-control form_datetime" id="endTime" type="text" value="" readonly="readonly" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="input-group-addon">出售价格&nbsp;</div>
+        <div style="float: left;">
+            <input class="form-control " id="startSellPrice" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+        <div style="float: left;"><h4>&nbsp; ~ &nbsp;</h4></div>
+        <div style="float: left;">
+            <input class="form-control " id="endSellPrice" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+    </div>
+    <div class="input-group" style="width: 315px;">
+        <div class="input-group-addon">待租车位信息&nbsp;</div>
+        <div>
+            <input type="text" id="address" class="form-control">
+        </div>
+    </div>
+    <button style="float: right;margin-right: 50px;" type="button" id="select" class="btn btn-primary">查询</button>
+</div>
+
+<div id="toolbarDemo">
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#myModal"
+            id="btn_info">
+        预定车位
+    </button>
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">出租车位信息<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div style="margin-left: 150px;width: 50%;">
+                        <span>出售车位信息：<span><span id="2">全默认写入</span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 20px">用户名：<span><span id="3"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 10px">真实姓名：<span><span id="4"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 5px">身份证号码：<span><span id="5"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 20px">职业：<span><span id="6"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 15px">信誉度：<span><span id="7"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 20px">电话：<span><span id="8"></span></span></span>
+                        </br> </br>
+                        <div>
+                            <p style="margin-left: 20px">留言：
+                            <p><textarea id="9" style="margin-left: 65px;margin-top: -25px"></textarea></p></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="reservation" class="btn btn-primary">预定车位</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    $(function () {
+        $('.form_datetime').datetimepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            todayBtn: 1,
+            autoclose: 1,
+        });
+
+
+        tableInit(null, null, null, null, null)
+        $("#select").click(function () {
+            var startTime = $("#startTime").val()
+            var endTime = $("#endTime").val()
+            var address = $("#address").val()
+            var startSellPrice = $("#startSellPrice").val()
+            var endSellPrice = $("#endSellPrice").val()
+            tableInit(startTime, endTime, address, startSellPrice, endSellPrice);
+        });
+        var qw;
+        var qe;
+        var qr;
+        var qt;
+        var qy;
+        var qu;
+        var qa;
+        var id;
+        var rentPersonalId;
+
+        function tableInit(startTime, endTime, address, startSellPrice, endSellPrice) {
+            $("#tb").bootstrapTable("destroy");
+            $('#tb').bootstrapTable({
+                url: '../../../sellParking/showSellParkingEntityInfo',
+                method: "post",//请求方式
+                // striped:true,//是否显示行间隔色
+                pageSize: 10,//每页显示的数量
+                pageList: [10, 20],//提供选择每页显示多少条
+                showRefresh: false,//是否显示刷新按钮
+                cache: false,//是否使用缓存
+                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                pagination: true,//是否显示分页
+                height: 500,//表格的高度
+                pageNumber: 1,//初始化显示第几页，默认第1页
+                singleSelect: true,//复选框只能选择一条记录
+                sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+                contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+                dataType: "json",//接收的数据类型
+                queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+                onLoadSuccess: function () {
+                    $("#ifm", parent.document).attr("height", $(document).height());
+                },
+                queryParams: function (params) {
+                    var nowPage = params.offset;
+                    return {
+                        current: (params.offset / params.limit) + 1,//第几页
+                        size: params.limit,//每页显示多少条
+                        startTime: startTime,
+                        endTime: endTime,
+                        address: address,
+                        startSellPrice: startSellPrice,
+                        endSellPrice: endSellPrice
+                    }
+                },
+                toolbar: '#toolbarDemo',
+                columns: [{
+                    field: 'parkingBean.address',
+                    title: '待售车位信息'
+                }, {
+                    field: 'releaseTime',
+                    title: '发布时间'
+                }, {
+                    field: 'parkingBean.personalBean.complainNum',
+                    title: '信誉度',
+                    formatter: function (value, row, index) {
+                        return row.parkingBean.personalBean.complainNum + "/" + row.parkingBean.personalBean.tradeNum
+                    }
+                }, {
+                    field: 'sellPrice',
+                    title: '出售价格'
+                }],
+                onClickRow: function (row, $element) {
+                    $('.info').removeClass('info');
+                    $($element).addClass('info');
+                    console.log(row)
+                    qw = row.parkingBean.address;
+                    qe = row.parkingBean.personalBean.username;
+                    qr = row.parkingBean.personalBean.relName;
+                    qt = row.parkingBean.personalBean.idCard;
+                    qy = row.parkingBean.personalBean.jobDescription;
+                    qu = row.parkingBean.personalBean.complainNum + "/" + row.parkingBean.personalBean.tradeNum;
+                    qa = row.parkingBean.personalBean.tel;
+                    id = row.id;
+                    rentPersonalId = row.parkingBean.personalBean.id;
+                },
+                //回调函数
+                responseHandler: function (res) {
+                    console.log(res);//查看从服务端得到的数据
+                    return {
+                        "total": res.data.page.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                        "rows": res.data.page.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                    }
+                }
+            });
+        }
+
+
+        $("#btn_info").click(function () {
+            if (id == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                document.getElementById("2").innerText = qw;
+                document.getElementById("3").innerText = qe;
+                document.getElementById("4").innerText = qr;
+                document.getElementById("5").innerText = qt;
+                document.getElementById("6").innerText = qy;
+                document.getElementById("7").innerText = qu;
+                document.getElementById("8").innerText = qa;
+                $("#reservation").click(function () {
+                    $.ajax({
+                        type: "post",
+                        url: "../../../sellMessage/addSellMessage",
+                        dataType: "json",
+                        data: {
+                            sellPersonalId: rentPersonalId,
+                            sellMessage: $("#9").val(),
+                            // personalId: 2,  //当前登陆的用户的个人车位id，还未修改
+                            sellId: id
+                        },
+                        success: function (data) {
+                            if (data.message == "ok") {
+                                alert("留言成功")
+                                window.location.href = "car-sales.html"
+                            }
+                        }
+                    });
+                })
+            }
+        })
+    })
+</script>
+</body>
+</html>

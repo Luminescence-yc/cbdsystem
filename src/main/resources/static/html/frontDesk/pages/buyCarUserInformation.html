@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+</head>
+<body>
+<div>
+    <div style="width: 300px ;height: 50px ;margin: 0px auto ">
+        <h1>买车预定用户信息</h1>
+    </div>
+
+    <div>
+        <div>
+            <table id="table_1"></table>
+        </div>
+
+        <div style=";text-align:center;">
+            <button class="btn btn-default" id="btn">成交</button>
+            <button class="btn btn-default" onclick="javascrtpt:window.location.href='sellCar.html'"
+                    style="margin-left: 10px">返回
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+<!--<script src="../js/jquery.nicescroll.js"></script>-->
+<script src="../js/jquery-3.3.1.min.js"></script>
+<!--<script src="../js/scripts.js"></script>-->
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script>
+    $(function () {
+        var url = location.search;
+        var loc = url.substring(url.lastIndexOf('=') + 1, url.length);
+        var qw;
+        var qe;
+        var qr;
+        $('#table_1').bootstrapTable({
+            url: '../../../sellMessage/getSellParkingByAll',
+            method: "post",//请求方式
+            // striped:true,//是否显示行间隔色
+            pageSize: 10,//每页显示的数量
+            pageList: [10, 20],//提供选择每页显示多少条
+            showRefresh: false,//是否显示刷新按钮
+            cache: false,//是否使用缓存
+            showToggle: false,//是否显示详细视图和列表视图的切换按钮
+            pagination: true,//是否显示分页
+            hegiht: 500,//表格的高度
+            pageNumber: 1,//初始化显示第几页，默认第1页
+            singleSelect: true,//复选框只能选择一条记录
+            sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+            contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+            dataType: "json",//接收的数据类型
+            queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+            queryParams: function (params) {
+                var nowPage = params.offset;
+                return {
+                    page: (params.offset / params.limit) + 1,//第几页
+                    size: params.limit,//每页显示多少条
+                    id: loc,
+                }
+            },
+            pagination: true,
+            toolbar: '#toolbarDemo',
+            columns: [{
+                field: 'personalEntity.username',
+                title: '用户名'
+            }, {
+                field: 'personalEntity.relName',
+                title: '真实姓名'
+            }, {
+                field: 'personalEntity.idCard',
+                title: '身份证号码'
+            }, {
+                field: 'personalEntity.jobDescription',
+                title: '职业'
+            }, {
+                field: 'personalEntity.tel',
+                title: '电话'
+            }, {
+                field: 'personalEntity.complainNum',
+                title: '信誉度',
+                formatter: function (value, row, index) {
+                    return row.personalEntity.complainNum + "/" + row.personalEntity.tradeNum
+                }
+            }, {
+                field: 'sellMessage',
+                title: '留言'
+            },],
+            onClickRow: function (row, $element) {
+                $('.info').removeClass('info');
+                $($element).addClass('info');
+                qw = row.personalEntity.id;
+                qe = row.id;
+                qr = 4;   //4是登陆用户id，暂时写的死数据。登陆之后再改成seeion
+            },
+            //回调函数
+            responseHandler: function (res) {
+                return {
+                    "total": res.data.page.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                    "rows": res.data.page.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                }
+            }
+        });
+
+
+        $("#btn").click(function () {
+            if (qe == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "../../../contract/addContract",
+                    dataType: "json",
+                    data: {
+                        sellId: loc,
+                        buyPersonalId: qw,
+                        // sellPersonalId: qr  //当前登陆的用户的个人车位id，还未修改
+                    },
+                    success: function (data) {
+                        if (data.message == "ok") {
+                            alert("交易成功")
+                            window.location.href = "sellCar.html"
+                        } else if (data.message == "not found") {
+                            alert("交易失败")
+                            window.location.href = "sellCar.html"
+                        }
+                    }
+                });
+            }
+        })
+
+    })
+</script>
+</html>

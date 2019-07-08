@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.ContractEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.ContractEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sellId" property="sellid" jdbcType="INTEGER" />
+    <result column="buyPersonalId" property="buypersonalid" jdbcType="INTEGER" />
+    <result column="sellPersonalId" property="sellpersonalid" jdbcType="INTEGER" />
+    <result column="contractNum" property="contractnum" jdbcType="VARCHAR" />
+    <result column="applyDate" property="applydate" jdbcType="DATE" />
+    <result column="startDate" property="startdate" jdbcType="DATE" />
+    <result column="sellerAgree" property="selleragree" jdbcType="BIT" />
+    <result column="buyerAgree" property="buyeragree" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sellId, buyPersonalId, sellPersonalId, contractNum, applyDate, startDate, sellerAgree, 
+    buyerAgree, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_contract
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_contract
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.ContractEntity" >
+    insert into t_contract (id, sellId, buyPersonalId, 
+      sellPersonalId, contractNum, applyDate, 
+      startDate, sellerAgree, buyerAgree, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{sellid,jdbcType=INTEGER}, #{buypersonalid,jdbcType=INTEGER}, 
+      #{sellpersonalid,jdbcType=INTEGER}, #{contractnum,jdbcType=VARCHAR}, #{applydate,jdbcType=DATE}, 
+      #{startdate,jdbcType=DATE}, #{selleragree,jdbcType=BIT}, #{buyeragree,jdbcType=BIT}, 
+      #{status,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.ContractEntity" >
+    insert into t_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sellid != null" >
+        sellId,
+      </if>
+      <if test="buypersonalid != null" >
+        buyPersonalId,
+      </if>
+      <if test="sellpersonalid != null" >
+        sellPersonalId,
+      </if>
+      <if test="contractnum != null" >
+        contractNum,
+      </if>
+      <if test="applydate != null" >
+        applyDate,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="selleragree != null" >
+        sellerAgree,
+      </if>
+      <if test="buyeragree != null" >
+        buyerAgree,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sellid != null" >
+        #{sellid,jdbcType=INTEGER},
+      </if>
+      <if test="buypersonalid != null" >
+        #{buypersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="sellpersonalid != null" >
+        #{sellpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="contractnum != null" >
+        #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null" >
+        #{applydate,jdbcType=DATE},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="selleragree != null" >
+        #{selleragree,jdbcType=BIT},
+      </if>
+      <if test="buyeragree != null" >
+        #{buyeragree,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.ContractEntity" >
+    update t_contract
+    <set >
+      <if test="sellid != null" >
+        sellId = #{sellid,jdbcType=INTEGER},
+      </if>
+      <if test="buypersonalid != null" >
+        buyPersonalId = #{buypersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="sellpersonalid != null" >
+        sellPersonalId = #{sellpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="contractnum != null" >
+        contractNum = #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null" >
+        applyDate = #{applydate,jdbcType=DATE},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="selleragree != null" >
+        sellerAgree = #{selleragree,jdbcType=BIT},
+      </if>
+      <if test="buyeragree != null" >
+        buyerAgree = #{buyeragree,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.ContractEntity" >
+    update t_contract
+    set sellId = #{sellid,jdbcType=INTEGER},
+      buyPersonalId = #{buypersonalid,jdbcType=INTEGER},
+      sellPersonalId = #{sellpersonalid,jdbcType=INTEGER},
+      contractNum = #{contractnum,jdbcType=VARCHAR},
+      applyDate = #{applydate,jdbcType=DATE},
+      startDate = #{startdate,jdbcType=DATE},
+      sellerAgree = #{selleragree,jdbcType=BIT},
+      buyerAgree = #{buyeragree,jdbcType=BIT},
+      status = #{status,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>外部合约管理</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/admin.css"/>
+    <style>
+		#queryBox{
+			width: 300px;
+			float: right;
+		}
+		#queryBox>div{
+			margin: 20px;
+		}
+    </style>
+</head>
+
+<body>
+<div class="page-content-wrap">
+	<div class="layui-form" id="table-list">
+		<table class="layui-table" id="demo"></table>
+	</div>
+	<!--<form class="layui-form" action="">-->
+		<div class="layui-form-item" id="queryBox">
+			<div>
+				<input type="text" name="title" placeholder="请输入合同单位" id="companyName" autocomplete="off" class="layui-input">
+			</div>
+			<div>
+				<input type="text" name="title" placeholder="请输入车位地址" id="address" autocomplete="off" class="layui-input">
+			</div>
+			<div>
+				<input type="text" name="title" placeholder="请输入成交价格" id="companyPrice" autocomplete="off" class="layui-input">
+			</div>
+			<div>
+				<button class="layui-btn layui-btn-normal" lay-submit="search" id="find">搜索</button>
+			</div>
+		</div>
+	<!--</form>-->
+</div>
+
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container tool-btn" id="layerDemo">
+		<button class="layui-btn layui-btn-small layui-btn-normal go-btn hidden-xs" id="addCompany">签约</button>
+		<button class="layui-btn layui-btn-small layui-btn-warm listOrderBtn hidden-xs" id="contract">续约</button>
+		<button class="layui-btn layui-btn-small layui-btn-normal go-btn hidden-xs" id="deleteContract">解约</button>
+		<button class="layui-btn layui-btn-small layui-btn-warm listOrderBtn hidden-xs" id="findAll">查看</button>
+	</div>
+</script>
+<script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	function openModak(url,title){
+		layui.use(['layer'],function () {
+			var layer = layui.layer;
+			layer.open({
+				type:2,//类型
+				offset:'50px',
+				area:['800px','600px'],//定义宽和高
+				title:title,
+				shadeClose:false,//点击遮罩层关闭
+				content: url//打开的内容
+			});
+		})
+	}
+	var id=0;
+    layui.use('table', function () {
+        table = layui.table;
+        table.on('row()', function (obj) {
+            id = obj.data.id;
+            obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+        });
+        tableInit(null,null,null);
+        $("#find").click(function () {
+            var companyName=$("#companyName").val();
+            var parkingAddress=$("#address").val();
+            var externalPrice=$("#companyPrice").val();
+            console.log(companyName,parkingAddress,externalPrice)
+            tableInit(companyName,parkingAddress,externalPrice);
+        });
+        $("#addCompany").click(function () {
+			openModak('danye-detail.html?','签约');
+        });
+        $("#deleteContract").click(function () {
+            if (id <=0) {
+                layer.open({
+                    title: '提示'
+                    , content: '请选中行'
+                });
+                return false;
+            } else {
+                openModak('cancelContract.html?'+id,'解约')
+			}
+
+        })
+
+        $("#findAll").click(function () {
+            if (id <=0) {
+                layer.open({
+                    title: '提示'
+                    , content: '请选中行'
+                });
+                return false;
+            } else {
+                openModak('check-the-contract.html?'+id,'查看')
+            }
+        })
+        $("#contract").click(function () {
+            if (id <= 0) {
+                layer.open({
+                    title: '提示'
+                    , content: '请选中行'
+                });
+                return false;
+            } else {
+				openModak('external-contract.html?'+id,'续约');
+        }
+        })
+    });
+    function tableInit(companyName,parkingAddress,externalPrice) {
+        table.render({
+            elem: '#demo',
+			toolbar:'#toolbarDemo',
+            id: 'idTest',
+            method: 'post',
+            url: '/findExternalContract/findPages',
+            request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+            },
+			done:function(){
+
+			},
+            parseData: function (res) { //res 即为原始返回的数据
+                // console.log(res)
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": 0, //解析提示文本
+                    "status": res.code, //解析接口状态
+                    "count": res.data.pages.total, //解析数据长度
+                    "list": res.data.pages.records //解析数据列表
+                };
+            },
+            response: {
+                statusName: 'status' //规定数据状态的字段名称，默认：code
+                , statusCode: 200 //规定成功的状态码，默认：04a
+                , msgName: 'hint' //规定状态信息的字段名称，默认：msg
+                , countName: 'count' //规定数据总数的字段名称，默认：count
+                , dataName: 'list' //规定数据列表的字段名称，默认：data
+            },
+            where: {//动态查询条件
+                companyName: companyName,
+                parkingAddress: parkingAddress,
+                externalPrice: externalPrice,
+            },
+            cols: [[
+                {field: 'id', title: 'ID', width: 0, hide: true},//隐藏ID列
+                {field: 'companyName', title: '合同单位'},
+                {field: 'parkingAddress', title: '车位地址'},
+                {field: 'contractStartDate', title: '合同生效日期'},
+                {field: 'contractEndDate', title: '合同截止日期'},
+                {field: 'externalPrice', title: '成交价格'},
+            ]],
+            page: true
+        })
+	}
+
+</script>
+</body>
+
+</html>

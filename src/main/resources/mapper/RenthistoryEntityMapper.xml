@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.RenthistoryEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.RenthistoryEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rentPersonalId" property="rentpersonalid" jdbcType="INTEGER" />
+    <result column="hirePersonalId" property="hirepersonalid" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="areaNum" property="areanum" jdbcType="VARCHAR" />
+    <result column="parkingNum" property="parkingnum" jdbcType="VARCHAR" />
+    <result column="rentStartTime" property="rentstarttime" jdbcType="TIMESTAMP" />
+    <result column="rentEndTime" property="rentendtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rentPersonalId, hirePersonalId, address, areaNum, parkingNum, rentStartTime, 
+    rentEndTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_renthistory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_renthistory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.RenthistoryEntity" >
+    insert into t_renthistory (id, rentPersonalId, hirePersonalId, 
+      address, areaNum, parkingNum, 
+      rentStartTime, rentEndTime)
+    values (#{id,jdbcType=INTEGER}, #{rentpersonalid,jdbcType=INTEGER}, #{hirepersonalid,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{areanum,jdbcType=VARCHAR}, #{parkingnum,jdbcType=VARCHAR}, 
+      #{rentstarttime,jdbcType=TIMESTAMP}, #{rentendtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.RenthistoryEntity" >
+    insert into t_renthistory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rentpersonalid != null" >
+        rentPersonalId,
+      </if>
+      <if test="hirepersonalid != null" >
+        hirePersonalId,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="areanum != null" >
+        areaNum,
+      </if>
+      <if test="parkingnum != null" >
+        parkingNum,
+      </if>
+      <if test="rentstarttime != null" >
+        rentStartTime,
+      </if>
+      <if test="rentendtime != null" >
+        rentEndTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rentpersonalid != null" >
+        #{rentpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="hirepersonalid != null" >
+        #{hirepersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areanum != null" >
+        #{areanum,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingnum != null" >
+        #{parkingnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rentstarttime != null" >
+        #{rentstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rentendtime != null" >
+        #{rentendtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.RenthistoryEntity" >
+    update t_renthistory
+    <set >
+      <if test="rentpersonalid != null" >
+        rentPersonalId = #{rentpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="hirepersonalid != null" >
+        hirePersonalId = #{hirepersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areanum != null" >
+        areaNum = #{areanum,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingnum != null" >
+        parkingNum = #{parkingnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rentstarttime != null" >
+        rentStartTime = #{rentstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rentendtime != null" >
+        rentEndTime = #{rentendtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.RenthistoryEntity" >
+    update t_renthistory
+    set rentPersonalId = #{rentpersonalid,jdbcType=INTEGER},
+      hirePersonalId = #{hirepersonalid,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      areaNum = #{areanum,jdbcType=VARCHAR},
+      parkingNum = #{parkingnum,jdbcType=VARCHAR},
+      rentStartTime = #{rentstarttime,jdbcType=TIMESTAMP},
+      rentEndTime = #{rentendtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

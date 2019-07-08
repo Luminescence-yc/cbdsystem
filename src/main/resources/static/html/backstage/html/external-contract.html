@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>网站后台管理外部续约</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/admin.css" />
+    <script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .layui-form-label{
+            width: 200px;
+        }
+        .layui-input-block{
+            margin-left: 230px;
+            line-height: 38px;
+        }
+        .layui-form{
+            width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page-content-wrap clearfix">
+    <!--<form class="layui-form">-->
+        <h1>续约</h1>
+        <div class="layui-tab">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item"></div>
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原合同编号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" readonly="readonly" name="name" id="old" required lay-verify="required" placeholder="请输入原合同编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!--<div class="layui-form-item">-->
+                        <!--<label class="layui-form-label">新合同编号：</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" name="name" id="new" required lay-verify="required" placeholder="请输入新合同编号" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">合同单位：</label>
+                        <div class="layui-input-block">
+                            <input type="text" readonly="readonly" name="name" id="companyName"required lay-verify="required" placeholder="请输入合同单位" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">对方联系人：</label>
+                        <div class="layui-input-block">
+                            <input type="text" readonly="readonly" name="name" id="contactPerson" required lay-verify="required" placeholder="请输入对方联系人" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">对方联系人电话：</label>
+                        <div class="layui-input-block">
+                            <input type="text" readonly="readonly" name="name" id="contactTel" required lay-verify="required" placeholder="请输入对方联系人电话" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成交价格：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" id="externalPrice"required lay-verify="required" placeholder="请输入成交价格" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">合同生效日期：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" id="contractStartDate"required lay-verify="required" placeholder="请输入合同生效日期" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">合同截止日期：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" id="contractEndDate"required lay-verify="required" placeholder="请输入合同截止日期" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图像上传：</label>
+                        <div class="layui-input-block">
+                            <input type="file" name="file（可随便定义）">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-tab-item">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="padding-left: 10px;">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" type="button" id="submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    <!--</form>-->
+</div>
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var id=window.location.href.split("?")[1];
+    $.ajax({
+        type:"post",
+        url:"/findExternalContract/findById",
+        data:{"id":id},
+        dataType:"json",
+        success:function (data) {
+            $("#old").val(data.data.contractBean.oldContractNum)
+            $("#companyName").val(data.data.contractBean.companyName);
+            $("#contactPerson").val(data.data.contractBean.contactPerson);
+            $("#contactTel").val(data.data.contractBean.contactTel);
+
+        }
+    })
+
+
+
+
+    layui.use(['form', 'jquery', 'layer'], function() {
+        var form = layui.form, $ = layui.jquery;
+        //全选
+        form.on('checkbox(allChoose)', function(data) {
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item) {
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+        form.render();
+
+        $("#submit").click(function () {
+            $.ajax({
+                type: "post",
+                url: "/findExternalContract/contract",
+                dataType: "json",
+                data: {
+                    id:id,
+                    oldContractNum: $("#old").val(),
+                    contractNum: $("#new").val(),
+                    companyName: $("#companyName").val(),
+                    contactPerson: $("#contactPerson").val(),
+                    contactTel: $("#contactTel").val(),
+                    externalPrice: $("#externalPrice").val(),
+                    contractStartDate: $("#contractStartDate").val(),
+                    contractEndDate: $("#contractEndDate").val()
+                },
+                success: function (data) {
+                    if (data.code==200) {
+                        layer.open({
+                            title: '提示'
+                            , content: '续约成功',
+                            yes: function () {
+                                window.parent.location.reload();//刷新父页面
+                            }
+                        });// window.location.href="externalContract.html"
+                    }
+                }
+            })
+        });
+
+    });
+</script>
+</body>
+
+</html>

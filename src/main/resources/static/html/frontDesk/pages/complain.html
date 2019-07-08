@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投诉信息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+
+</head>
+<body>
+<div id="toolbar" class="btn-group">
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#showModal" id="btn_add">查看订单</button>
+
+</div>
+<table id="tb"></table>
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">订单详情<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div style="margin-left: 150px;width: 50%;">
+                        <div>
+                            <label>招租者</label><input class="form-control" type="text" disabled>
+                        </div>
+                        <div>
+                            <label>租赁者</label><input class="form-control" type="text" disabled>
+                        </div>
+                        <div>
+                            <label>出租开始时间</label><input class="form-control" type="text" disabled>
+                        </div>
+                        <div>
+                            <label>出租结束时间</label><input class="form-control" type="text" disabled>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script>
+    $('#tb').bootstrapTable({
+        url: 'data1.json',
+        pagination: true,
+        onLoadSuccess:function(){
+            $("#ifm",parent.document).attr("height",$(document).height());
+        },
+        toolbar: '#toolbar',
+        columns: [{
+            field: '',
+            title: '被投诉人'
+        }, {
+            field: '',
+            title: '投诉理由'
+        }, {
+            field: '',
+            title: '订单编号'
+        }, {
+            field: '',
+            title: '受理状态'
+        }]
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        .yanse{
+            background-color:#d5d5d5;
+        }
+    </style>
+</head>
+<body>
+<br>
+<button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="article-add.html" id="addManagement"><i class="layui-icon">&#xe654;</i></button>
+<td><button class="layui-btn layui-btn-mini layui-btn-normal table-list-status" id="checkDetailsManagement">显示 </button></td>
+<button class="layui-btn layui-btn-small layui-btn-normal go-btn" data-id="1" data-url="article-detail.html" id="updateManagement"><i class="layui-icon">&#xe642;</i></button>
+<button class="layui-btn layui-btn-small layui-btn-danger delBtn"  data-url="article-add.html" id="deleteManagement"><i class="layui-icon">&#xe640;</i></button>
+
+<div class="table"><table id="demo" lay-filter="test"></table></div>
+
+
+
+
+
+<div id="add" style="display: none">
+    <h1 style="margin-left: 100px">添加后台管理员</h1>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">登陆密码：</label>
+        <div class="layui-input-block">
+            <input type="password" id="addPassword" style="width: 250px" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话号码：</label>
+        <div class="layui-input-block">
+            <input type="text" id="addTel" style="width: 250px" required lay-verify="required" placeholder="请输入电话号码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工&nbsp;&nbsp;号：</label>
+        <div class="layui-input-block">
+            <input type="text" id="addNum" style="width: 250px" required lay-verify="required" placeholder="请输入工号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓&nbsp;&nbsp;名：</label>
+        <div class="layui-input-block">
+            <input type="text" id="addRealName" style="width: 250px" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权&nbsp;&nbsp;限：</label>
+        <input id="show9" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>用户管理权限</text>
+        <input id="show10"type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>车位管理权限</text>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="show11" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>合同管理权限</text>
+        <input id="show12" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>投诉管理权限</text>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal back" lay-submit lay-filter="adminInfo" id="addAdmin">添加</button>
+            <button class="layui-btn layui-btn-normal back" lay-submit lay-filter="adminInfo">返回</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="updete" style="display: none">
+    <h1 style="margin-left: 100px">修改后台管理员</h1>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">登陆密码：</label>
+        <div class="layui-input-block">
+            <input id="show17" type="text" name="username" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话号码：</label>
+        <div class="layui-input-block">
+            <input id="show18" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工&nbsp;&nbsp;号：</label>
+        <div class="layui-input-block">
+            <input id="show19" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓&nbsp;&nbsp;名：</label>
+        <div class="layui-input-block">
+            <input id="show20" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权&nbsp;&nbsp;限：</label>
+        <input id="show13" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>用户管理权限</text>
+        <input id="show14" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>车位管理权限</text>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="show15" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>合同管理权限</text>
+        <input id="show16" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px"><text>投诉管理权限</text>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button id="updateAdmin" class="layui-btn layui-btn-normal back" lay-submit lay-filter="adminInfo" >修改</button>
+            <button class="layui-btn layui-btn-normal back" lay-submit lay-filter="adminInfo">返回</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="checkDetails" style="display: none">
+    <h1 style="margin-left: 100px">查看后台管理员</h1>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">登陆密码：</label>
+        <div class="layui-input-block">
+            <input id="show1" type="text" name="username" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">电话号码：</label>
+        <div class="layui-input-block">
+            <input id="show2" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工&nbsp;&nbsp;号：</label>
+        <div class="layui-input-block">
+            <input id="show3" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓&nbsp;&nbsp;名：</label>
+        <div class="layui-input-block">
+            <input id="show4" type="text" name="possword" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled" value="admin">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权&nbsp;&nbsp;限：</label>
+        <input id="show5" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px" ><text>用户管理权限</text>
+        <input id="show6" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px" ><text>车位管理权限</text>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="show7" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px" ><text>合同管理权限</text>
+        <input id="show8" type="checkbox" name="" lay-skin="primary" style="margin-top: 10px" ><text>投诉管理权限</text>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal back" lay-submit lay-filter="adminInfo">返回</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="../layui/layui.all.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/controlAuthorityManagement.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.MessageEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.MessageEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="personalId" property="personalid" jdbcType="INTEGER" />
+    <result column="messageTitle" property="messagetitle" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="messageTime" property="messagetime" jdbcType="TIMESTAMP" />
+    <result column="messageType" property="messagetype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, personalId, messageTitle, content, messageTime, messageType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.MessageEntity" >
+    insert into t_message (id, personalId, messageTitle, 
+      content, messageTime, messageType
+      )
+    values (#{id,jdbcType=INTEGER}, #{personalid,jdbcType=INTEGER}, #{messagetitle,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{messagetime,jdbcType=TIMESTAMP}, #{messagetype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.MessageEntity" >
+    insert into t_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="personalid != null" >
+        personalId,
+      </if>
+      <if test="messagetitle != null" >
+        messageTitle,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="messagetime != null" >
+        messageTime,
+      </if>
+      <if test="messagetype != null" >
+        messageType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personalid != null" >
+        #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="messagetitle != null" >
+        #{messagetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="messagetime != null" >
+        #{messagetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messagetype != null" >
+        #{messagetype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.MessageEntity" >
+    update t_message
+    <set >
+      <if test="personalid != null" >
+        personalId = #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="messagetitle != null" >
+        messageTitle = #{messagetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="messagetime != null" >
+        messageTime = #{messagetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messagetype != null" >
+        messageType = #{messagetype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.MessageEntity" >
+    update t_message
+    set personalId = #{personalid,jdbcType=INTEGER},
+      messageTitle = #{messagetitle,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      messageTime = #{messagetime,jdbcType=TIMESTAMP},
+      messageType = #{messagetype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

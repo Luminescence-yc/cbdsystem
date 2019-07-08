@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出租车位信息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <style>
+        #btnBox>a{
+            margin: 30px 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="btnBox">
+    <a href="javascript:window.location.href='rentalMarket.html'"><button type="button" class="btn btn-primary btn-lg" id="btn1">招租交易</button></a>
+    <a href="javascript:window.location.href='leaseReservation.html'"><button type="button" class="btn btn-lg" id="btn2">租赁交易</button></a>
+    <a href="javascript:window.location.href='buyCar.html'"><button type="button" class="btn btn-lg" id="btn3">买车交易</button></a>
+    <a href="javascript:window.location.href='sellCar.html'"><button type="button" class="btn btn-lg" id="btn4">卖车交易</button></a>
+</div>
+<table id="table"></table>
+<div id="toolbar" class="btn-group">
+    <button class="btn btn-default" data-toggle="modal" data-target="#myModal" id="btn">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>处理招租
+    </button>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script>
+    $(function () {
+        var parkingId;
+        var rentId;
+        $("#table").bootstrapTable({
+            url:"/rentPark/getAllRentParkingInformation",//请求的url地址
+            method:"post",//请求方式
+            // striped:true,//是否显示行间隔色
+            page:10,//每页显示的数量
+            pageList: [10,20],//提供选择每页显示多少条
+            toolbar: '#toolbar',
+            showRefresh:false,//是否显示刷新按钮
+            cache:false,//是否使用缓存
+            showToggle:false,//是否显示详细视图和列表视图的切换按钮
+            pagination:true,//是否显示分页
+            height:500,//表格的高度
+            pageNumber:1,//初始化显示第几页，默认第1页
+            singleSelect:true,//复选框只能选择一条记录
+            sidePagination : 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+            contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+            dataType:"json",//接收的数据类型
+            queryParamsType:'limit',//参数格式，发送标准的Restful类型的请求
+            //得到查询参数即发给服务端的参数
+            queryParams:function(params){
+                var nowPage=params.offset;
+                return{
+                    page: (params.offset/params.limit)+1,//第几页
+                    size: params.limit,//每页显示多少条
+                }
+            },
+            onClickRow:function (row,$element) {
+                $('.info').removeClass('info');
+                $($element).addClass('info');
+                 parkingId=row.personalParkingBean.id;
+                 rentId=row.id;
+                status1=row.status;
+            },
+            onLoadSuccess:function(){
+                $("#ifm",parent.document).attr("height",$(document).height());
+            },
+            //回调函数
+            responseHandler:function(res){
+                console.log(res);//查看从服务端得到的数据
+                console.log(res.data.page.content);
+                return{
+                    "total":res.data.page.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                    "rows":res.data.page.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                }
+            },
+            columns:[
+                // {field: "select", checkbox: true},//开启选择框
+                {field:"id", title:"id",visible:false},
+                {field:"address", title:"出租车位信息"},//表头，其中field值是返回JSON格式中对应的属性
+                {field:"startTime", title:"租借开始时间"},
+                {field:"endTime", title:"租借结束时间"},
+                {field:"countMessage", title:"预定人数"}]
+        });
+
+
+        $("#btn").click(function () {
+            var a= $("#table").bootstrapTable('getSelections');
+            if(rentId!=null&&parkingId!=null){
+                window.location.href="processingLease.html?"+rentId+"&"+parkingId;
+            }else{
+                alert("请选中一行")
+            }
+        })
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/admin.css"/>
+
+</head>
+<body>
+<style>
+    .yanse {
+        background-color: cornsilk;
+    }
+
+    #queryBox {
+        width: 300px;
+        float: right;
+    }
+
+    #queryBox > div {
+        margin: 20px;
+    }
+</style>
+<div class="container">
+    <div class="page-content-wrap">
+        <table class="layui-hide" lay-filter="test" lay-data="{id:'idTest'}" id="test"></table>
+            <div class="layui-form-item" id="queryBox">
+                <div>
+                    <input type="text"id="address" placeholder="请输入车位地址" autocomplete="off" class="layui-input">
+                </div>
+                <div>
+                    <input type="text" id="areaNum" placeholder="请输入车位区域" autocomplete="off" class="layui-input">
+                </div>
+                <div>
+                    <button class="layui-btn layui-btn-normal" lay-submit="search" id="find">搜索</button>
+                </div>
+            </div>
+        <div id="addcarport" style="display: none">
+            </br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位所在地址：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;"  name="title" required lay-verify="required"
+                           placeholder="请输入车位所在地址" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位区域：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;"   name="title" required lay-verify="required"
+                           placeholder="请输入车位区域" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" id="addPark" lay-submit lay-filter="formDemo">添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">返回</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="batchaddcarport" style="display: none">
+            </br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位所在地址：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" id="addressParking" name="title" required lay-verify="required"
+                           placeholder="请输入车位所在地址" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位区域编号：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" name="title" id="parking" required lay-verify="required"
+                           placeholder="请输入车位区域编号" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位起始号：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" id="startDate" name="title" required lay-verify="required"
+                           placeholder="请输入起始号" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位总数：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" id="counts" name="title" required lay-verify="required"
+                           placeholder="请输入车位总数" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" id="addParking" lay-submit lay-filter="formDemo">添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">返回</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="searchCarport" style="display: none">
+            </br>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位所在地址：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" id="parkingaddress" name="title" required lay-verify="required"
+                           readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车位编号：</label>
+                <div class="layui-input-block">
+                    <input type="text" style="width: 500px;" id="parkingNum" name="title" required lay-verify="required"
+                           readonly="readonly" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">返回</button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container tool-btn">
+            <!--<button id="carport" class="layui-btn">添加</button>-->
+            <button id="search" class="layui-btn">查看</button>
+            <button id="batch" class="layui-btn">批量添加</button>
+        </div>
+
+    </script>
+    <script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/cbdParking.js"></script>
+</body>
+
+</html>
+

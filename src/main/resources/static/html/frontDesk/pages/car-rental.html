@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租赁市场</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <style>
+        .input-group {
+            margin: 20px;
+            width: 344px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+<h1 style="text-align:center;">租赁市场</h1>
+<table id="tb"></table>
+<div style="float: right;">
+    <div class="input-group">
+        <div class="input-group-addon">租借时间区间&nbsp;</div>
+        <div style="float: left;">
+            <input class="form-control form_datetime" id="beginStartTime" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;" readonly="readonly">
+        </div>
+        <div style="float: left;"><h4>&nbsp; ~ &nbsp;</h4></div>
+        <div style="float: left;">
+            <input class="form-control form_datetime" id="overEndTime" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;" readonly="readonly">
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="input-group-addon">出租价格区间&nbsp;</div>
+        <div style="float: left;">
+            <input class="form-control" id="startRentPrice" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+        <div style="float: left;"><h4>&nbsp; ~ &nbsp;</h4></div>
+        <div style="float: left;">
+            <input class="form-control" id="endRentPrice" type="text" value="" size="16"
+                   style="height: 39px;width: 100px;">
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="input-group-addon">待租车位信息&nbsp;</div>
+        <div style="float: left;">
+            <input type="text" id="address" class="form-control" style="height: 39px;width: 231px;">
+        </div>
+    </div>
+    <button style="float: right; margin-right: 50px;" id="select" type="button" class="btn btn-primary">查询</button>
+</div>
+<div id="toolbarDemo">
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#myModal"
+            id="btn_info">
+        预定车位
+    </button>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">出租车位信息<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div style="margin-left: 150px;width: 50%;">
+                        <span>待租车位信息：<span><span id="2">全默认写入</span></span></span>
+                        </br> </br>
+                        <span>租借开始时间：<span><span id="3"></span></span></span>
+                        </br> </br>
+                        <span>租借结束时间：<span><span id="4"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 5px">租赁用户名：<span><span id="5"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 20px">职业：<span><span id="6"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 15px">信誉度：<span><span id="7"></span></span></span>
+                        </br> </br>
+                        <span style="margin-left: 20px">电话：<span><span id="8"></span></span></span>
+                        </br> </br>
+                        <div>
+                            <p style="margin-left: 20px">留言：
+                            <p><textarea id="9" style="margin-left: 65px;margin-top: -25px"></textarea></p></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="reservation" class="btn btn-primary">预定车位</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/fileinput.min.js"></script>
+<script>
+    $(function () {
+        $('.form_datetime').datetimepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            todayBtn: 1,
+            autoclose: 1
+        });
+        tableInit(null, null, null, null, null)
+        $("#select").click(function () {
+            var beginStartTime = $("#beginStartTime").val()
+            var overEndTime = $("#overEndTime").val()
+            var address = $("#address").val()
+            var startRentPrice = $("#startRentPrice").val()
+            var endRentPrice = $("#endRentPrice").val()
+            tableInit(beginStartTime, overEndTime, address, startRentPrice, endRentPrice);
+        });
+        var qw;
+        var qe;
+        var qr;
+        var qt;
+        var qy;
+        var qu;
+        var qa;
+        var id;
+        var rentPersonalId;
+
+        function tableInit(beginStartTime, overEndTime, address, startRentPrice, endRentPrice) {
+            $("#tb").bootstrapTable("destroy");
+            $('#tb').bootstrapTable({
+                url: '../../../rentPark/showRentParkingInfo',
+                method: "post",//请求方式
+                // striped:true,//是否显示行间隔色
+                pageSize: 10,//每页显示的数量
+                pageList: [10, 20],//提供选择每页显示多少条
+                showRefresh: false,//是否显示刷新按钮
+                cache: false,//是否使用缓存
+                showToggle: false,//是否显示详细视图和列表视图的切换按钮
+                pagination: true,//是否显示分页
+                height: 500,//表格的高度
+                pageNumber: 1,//初始化显示第几页，默认第1页
+                singleSelect: true,//复选框只能选择一条记录
+                sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+                contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+                dataType: "json",//接收的数据类型
+                queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+                onLoadSuccess: function () {
+                    $("#ifm", parent.document).attr("height", $(document).height());
+                },
+                queryParams: function (params) {
+                    var nowPage = params.offset;
+                    return {
+                        page: (params.offset / params.limit) + 1,//第几页
+                        size: params.limit,//每页显示多少条
+                        beginStartTime: beginStartTime,
+                        overStartTime: "",
+                        beginEndTime: "",
+                        overEndTime: overEndTime,
+                        address: address,
+                        startRentPrice: startRentPrice,
+                        endRentPrice: endRentPrice
+                    }
+                },
+                pagination: true,
+                toolbar: '#toolbarDemo',
+                columns: [
+                    {
+                        field: 'personalParkingEntity.address',
+                        title: '待租车位信息'
+                    }, {
+                        field: 'startTime',
+                        title: '租借开始时间'
+                    }, {
+                        field: 'endTime',
+                        title: '租借结束时间'
+                    }, {
+                        field: 'personalParkingEntity.personalEntity.complainNum', //+'/'+'personalParkingEntity.personalEntity.tradeNum',
+                        title: '信誉度(投诉次数/交易次数)',
+                        formatter: function (value, row, index) {
+                            return row.personalParkingEntity.personalEntity.complainNum + "/" + row.personalParkingEntity.personalEntity.tradeNum
+                        }
+                    }, {
+                        field: 'rentPrice',
+                        title: '出租价格'
+                    },
+                ],
+                onClickRow: function (row, $element) {
+                    $('.info').removeClass('info');
+                    $($element).addClass('info');
+                    console.log(row)
+                    qw = row.personalParkingEntity.address;
+                    qe = row.startTime;
+                    qr = row.endTime;
+                    qt = row.personalParkingEntity.personalEntity.relName;
+                    qy = row.personalParkingEntity.personalEntity.jobDescription;
+                    qu = row.personalParkingEntity.personalEntity.complainNum + "/" + row.personalParkingEntity.personalEntity.tradeNum;
+                    qa = row.personalParkingEntity.personalEntity.tel;
+                    id = row.id;
+                    rentPersonalId = row.personalParkingEntity.personalEntity.id;
+                },
+                //回调函数
+                responseHandler: function (res) {
+                    console.log(res);//查看从服务端得到的数据
+                    return {
+                        "total": res.data.pages.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                        "rows": res.data.pages.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                    }
+                }
+            });
+        }
+
+
+        $("#btn_info").click(function () {
+            if (id == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                document.getElementById("2").innerText = qw;
+                document.getElementById("3").innerText = qe;
+                document.getElementById("4").innerText = qr;
+                document.getElementById("5").innerText = qt;
+                document.getElementById("6").innerText = qy;
+                document.getElementById("7").innerText = qu;
+                document.getElementById("8").innerText = qa;
+                $("#reservation").click(function () {
+                    $.ajax({
+                        type: "post",
+                        url: "/rentMessage/addRentMessage",
+                        dataType: "json",
+                        data: {
+                            rentPersonalId: rentPersonalId,
+                            rentMessage: $("#9").val(),
+                            // parkingId: 2,  //当前登陆的用户的个人车位id，还未修改
+                            rentId: id
+                        },
+                        success: function (data) {
+                            if (data.message == "ok") {
+                                alert("留言成功")
+                                $(".close").click();
+                            }
+                        }
+                    });
+                })
+            }
+        })
+    })
+</script>
+</body>
+</html>

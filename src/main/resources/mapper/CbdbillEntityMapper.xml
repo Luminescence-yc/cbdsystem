@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.CbdbillEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.CbdbillEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tradeDate" property="tradedate" jdbcType="DATE" />
+    <result column="tradeTime" property="tradetime" jdbcType="TIME" />
+    <result column="expand" property="expand" jdbcType="DOUBLE" />
+    <result column="income" property="income" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tradeDate, tradeTime, expand, income, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cbdbill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_cbdbill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.CbdbillEntity" >
+    insert into t_cbdbill (id, tradeDate, tradeTime, 
+      expand, income, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{tradedate,jdbcType=DATE}, #{tradetime,jdbcType=TIME}, 
+      #{expand,jdbcType=DOUBLE}, #{income,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.CbdbillEntity" >
+    insert into t_cbdbill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradedate != null" >
+        tradeDate,
+      </if>
+      <if test="tradetime != null" >
+        tradeTime,
+      </if>
+      <if test="expand != null" >
+        expand,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradedate != null" >
+        #{tradedate,jdbcType=DATE},
+      </if>
+      <if test="tradetime != null" >
+        #{tradetime,jdbcType=TIME},
+      </if>
+      <if test="expand != null" >
+        #{expand,jdbcType=DOUBLE},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.CbdbillEntity" >
+    update t_cbdbill
+    <set >
+      <if test="tradedate != null" >
+        tradeDate = #{tradedate,jdbcType=DATE},
+      </if>
+      <if test="tradetime != null" >
+        tradeTime = #{tradetime,jdbcType=TIME},
+      </if>
+      <if test="expand != null" >
+        expand = #{expand,jdbcType=DOUBLE},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.CbdbillEntity" >
+    update t_cbdbill
+    set tradeDate = #{tradedate,jdbcType=DATE},
+      tradeTime = #{tradetime,jdbcType=TIME},
+      expand = #{expand,jdbcType=DOUBLE},
+      income = #{income,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

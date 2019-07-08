@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.PersonalbillEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.PersonalbillEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="personalId" property="personalid" jdbcType="INTEGER" />
+    <result column="dealDate" property="dealdate" jdbcType="DATE" />
+    <result column="dealTime" property="dealtime" jdbcType="TIME" />
+    <result column="expend" property="expend" jdbcType="DOUBLE" />
+    <result column="income" property="income" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, personalId, dealDate, dealTime, expend, income, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_personalbill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_personalbill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.PersonalbillEntity" >
+    insert into t_personalbill (id, personalId, dealDate, 
+      dealTime, expend, income, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{personalid,jdbcType=INTEGER}, #{dealdate,jdbcType=DATE}, 
+      #{dealtime,jdbcType=TIME}, #{expend,jdbcType=DOUBLE}, #{income,jdbcType=DOUBLE}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.PersonalbillEntity" >
+    insert into t_personalbill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="personalid != null" >
+        personalId,
+      </if>
+      <if test="dealdate != null" >
+        dealDate,
+      </if>
+      <if test="dealtime != null" >
+        dealTime,
+      </if>
+      <if test="expend != null" >
+        expend,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personalid != null" >
+        #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="dealdate != null" >
+        #{dealdate,jdbcType=DATE},
+      </if>
+      <if test="dealtime != null" >
+        #{dealtime,jdbcType=TIME},
+      </if>
+      <if test="expend != null" >
+        #{expend,jdbcType=DOUBLE},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.PersonalbillEntity" >
+    update t_personalbill
+    <set >
+      <if test="personalid != null" >
+        personalId = #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="dealdate != null" >
+        dealDate = #{dealdate,jdbcType=DATE},
+      </if>
+      <if test="dealtime != null" >
+        dealTime = #{dealtime,jdbcType=TIME},
+      </if>
+      <if test="expend != null" >
+        expend = #{expend,jdbcType=DOUBLE},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.PersonalbillEntity" >
+    update t_personalbill
+    set personalId = #{personalid,jdbcType=INTEGER},
+      dealDate = #{dealdate,jdbcType=DATE},
+      dealTime = #{dealtime,jdbcType=TIME},
+      expend = #{expend,jdbcType=DOUBLE},
+      income = #{income,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

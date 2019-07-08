@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.SellhistoryEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.SellhistoryEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="buyPersonalId" property="buypersonalid" jdbcType="INTEGER" />
+    <result column="sellPersonalId" property="sellpersonalid" jdbcType="INTEGER" />
+    <result column="parkingMessage" property="parkingmessage" jdbcType="VARCHAR" />
+    <result column="externalPrice" property="externalprice" jdbcType="VARCHAR" />
+    <result column="sellDate" property="selldate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, buyPersonalId, sellPersonalId, parkingMessage, externalPrice, sellDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sellhistory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sellhistory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.SellhistoryEntity" >
+    insert into t_sellhistory (id, buyPersonalId, sellPersonalId, 
+      parkingMessage, externalPrice, sellDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{buypersonalid,jdbcType=INTEGER}, #{sellpersonalid,jdbcType=INTEGER}, 
+      #{parkingmessage,jdbcType=VARCHAR}, #{externalprice,jdbcType=VARCHAR}, #{selldate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.SellhistoryEntity" >
+    insert into t_sellhistory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="buypersonalid != null" >
+        buyPersonalId,
+      </if>
+      <if test="sellpersonalid != null" >
+        sellPersonalId,
+      </if>
+      <if test="parkingmessage != null" >
+        parkingMessage,
+      </if>
+      <if test="externalprice != null" >
+        externalPrice,
+      </if>
+      <if test="selldate != null" >
+        sellDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="buypersonalid != null" >
+        #{buypersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="sellpersonalid != null" >
+        #{sellpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="parkingmessage != null" >
+        #{parkingmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="externalprice != null" >
+        #{externalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="selldate != null" >
+        #{selldate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.SellhistoryEntity" >
+    update t_sellhistory
+    <set >
+      <if test="buypersonalid != null" >
+        buyPersonalId = #{buypersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="sellpersonalid != null" >
+        sellPersonalId = #{sellpersonalid,jdbcType=INTEGER},
+      </if>
+      <if test="parkingmessage != null" >
+        parkingMessage = #{parkingmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="externalprice != null" >
+        externalPrice = #{externalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="selldate != null" >
+        sellDate = #{selldate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.SellhistoryEntity" >
+    update t_sellhistory
+    set buyPersonalId = #{buypersonalid,jdbcType=INTEGER},
+      sellPersonalId = #{sellpersonalid,jdbcType=INTEGER},
+      parkingMessage = #{parkingmessage,jdbcType=VARCHAR},
+      externalPrice = #{externalprice,jdbcType=VARCHAR},
+      sellDate = #{selldate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

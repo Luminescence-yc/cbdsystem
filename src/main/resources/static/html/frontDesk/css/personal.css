@@ -1,0 +1,25 @@
+.inputBox{
+    float: left;
+    width: 400px;
+}
+.inputBox>div{
+    overflow: hidden;
+    margin: 30px;
+}
+.inputBox label{
+    float: left;
+    display: inline-block;
+    line-height: 34px;
+    width: 100px;
+    text-align: right;
+}
+.inputBox input{
+    float: right;
+    display: inline-block;
+    width: 200px;
+}
+.centerBox{
+    overflow: hidden;
+    width: auto;
+    margin: auto;
+}

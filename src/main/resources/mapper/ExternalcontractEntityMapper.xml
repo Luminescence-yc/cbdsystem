@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.ExternalcontractEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.ExternalcontractEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="contractNum" property="contractnum" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="contactPerson" property="contactperson" jdbcType="VARCHAR" />
+    <result column="contactTel" property="contacttel" jdbcType="VARCHAR" />
+    <result column="companyAddress" property="companyaddress" jdbcType="VARCHAR" />
+    <result column="contractStartDate" property="contractstartdate" jdbcType="DATE" />
+    <result column="contractEndDate" property="contractenddate" jdbcType="DATE" />
+    <result column="externalPrice" property="externalprice" jdbcType="DOUBLE" />
+    <result column="contractPicture" property="contractpicture" jdbcType="VARCHAR" />
+    <result column="parkingAddress" property="parkingaddress" jdbcType="VARCHAR" />
+    <result column="oldContractNum" property="oldcontractnum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contractNum, companyName, contactPerson, contactTel, companyAddress, contractStartDate, 
+    contractEndDate, externalPrice, contractPicture, parkingAddress, oldContractNum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_externalcontract
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_externalcontract
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.ExternalcontractEntity" >
+    insert into t_externalcontract (id, contractNum, companyName, 
+      contactPerson, contactTel, companyAddress, 
+      contractStartDate, contractEndDate, externalPrice, 
+      contractPicture, parkingAddress, oldContractNum
+      )
+    values (#{id,jdbcType=INTEGER}, #{contractnum,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{contactperson,jdbcType=VARCHAR}, #{contacttel,jdbcType=VARCHAR}, #{companyaddress,jdbcType=VARCHAR}, 
+      #{contractstartdate,jdbcType=DATE}, #{contractenddate,jdbcType=DATE}, #{externalprice,jdbcType=DOUBLE}, 
+      #{contractpicture,jdbcType=VARCHAR}, #{parkingaddress,jdbcType=VARCHAR}, #{oldcontractnum,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.ExternalcontractEntity" >
+    insert into t_externalcontract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contractnum != null" >
+        contractNum,
+      </if>
+      <if test="companyname != null" >
+        companyName,
+      </if>
+      <if test="contactperson != null" >
+        contactPerson,
+      </if>
+      <if test="contacttel != null" >
+        contactTel,
+      </if>
+      <if test="companyaddress != null" >
+        companyAddress,
+      </if>
+      <if test="contractstartdate != null" >
+        contractStartDate,
+      </if>
+      <if test="contractenddate != null" >
+        contractEndDate,
+      </if>
+      <if test="externalprice != null" >
+        externalPrice,
+      </if>
+      <if test="contractpicture != null" >
+        contractPicture,
+      </if>
+      <if test="parkingaddress != null" >
+        parkingAddress,
+      </if>
+      <if test="oldcontractnum != null" >
+        oldContractNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contractnum != null" >
+        #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactperson != null" >
+        #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="contacttel != null" >
+        #{contacttel,jdbcType=VARCHAR},
+      </if>
+      <if test="companyaddress != null" >
+        #{companyaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contractstartdate != null" >
+        #{contractstartdate,jdbcType=DATE},
+      </if>
+      <if test="contractenddate != null" >
+        #{contractenddate,jdbcType=DATE},
+      </if>
+      <if test="externalprice != null" >
+        #{externalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="contractpicture != null" >
+        #{contractpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingaddress != null" >
+        #{parkingaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="oldcontractnum != null" >
+        #{oldcontractnum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.ExternalcontractEntity" >
+    update t_externalcontract
+    <set >
+      <if test="contractnum != null" >
+        contractNum = #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        companyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactperson != null" >
+        contactPerson = #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="contacttel != null" >
+        contactTel = #{contacttel,jdbcType=VARCHAR},
+      </if>
+      <if test="companyaddress != null" >
+        companyAddress = #{companyaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contractstartdate != null" >
+        contractStartDate = #{contractstartdate,jdbcType=DATE},
+      </if>
+      <if test="contractenddate != null" >
+        contractEndDate = #{contractenddate,jdbcType=DATE},
+      </if>
+      <if test="externalprice != null" >
+        externalPrice = #{externalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="contractpicture != null" >
+        contractPicture = #{contractpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingaddress != null" >
+        parkingAddress = #{parkingaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="oldcontractnum != null" >
+        oldContractNum = #{oldcontractnum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.ExternalcontractEntity" >
+    update t_externalcontract
+    set contractNum = #{contractnum,jdbcType=VARCHAR},
+      companyName = #{companyname,jdbcType=VARCHAR},
+      contactPerson = #{contactperson,jdbcType=VARCHAR},
+      contactTel = #{contacttel,jdbcType=VARCHAR},
+      companyAddress = #{companyaddress,jdbcType=VARCHAR},
+      contractStartDate = #{contractstartdate,jdbcType=DATE},
+      contractEndDate = #{contractenddate,jdbcType=DATE},
+      externalPrice = #{externalprice,jdbcType=DOUBLE},
+      contractPicture = #{contractpicture,jdbcType=VARCHAR},
+      parkingAddress = #{parkingaddress,jdbcType=VARCHAR},
+      oldContractNum = #{oldcontractnum,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

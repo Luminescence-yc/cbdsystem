@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+
+</head>
+<body>
+<ul id="parent_nav" class="nav nav-pills nav-stacked" style="width: 50px; display: none;">
+    <li role="presentation" id="companyinfo.html" class="active"><a href="javascript:void(0)">已租车位</a></li>
+    <li role="presentation" id="companyBill.html"><a href="javascript:void(0)">账单</a></li>
+</ul>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script>
+    $(function () {
+        $("#left_nav",parent.document).html("");
+        $("#left_nav",parent.document).append($("#parent_nav").children());
+        ($(".active",parent.document).click());
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+
+</head>
+<body>
+<ul id="parent_nav" class="nav nav-pills nav-stacked" style="width: 50px; display: none;">
+    <li role="presentation" id="personal.html" class="active"><a href="javascript:void(0)">个人信息</a></li>
+    <li role="presentation" id="myParking.html"><a href="javascript:void(0)">我的车位</a></li>
+    <li role="presentation" id="finance.html"><a href="javascript:void(0)">个人财务</a></li>
+    <li role="presentation" id="rentalMarket.html"><a href="javascript:void(0)">交易处理</a></li>
+    <li role="presentation" id="complain.html"><a href="javascript:void(0)">投诉信息</a></li>
+    <li role="presentation" id="lookLeaseRecord.html"><a href="javascript:void(0)">交易记录</a></li>
+    <li role="presentation" id="messageReminder.html"><a href="javascript:void(0)">消息</a></li>
+</ul>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script>
+    $(function () {
+        $("#left_nav",parent.document).html("");
+        $("#left_nav",parent.document).append($("#parent_nav").children());
+        ($(".active",parent.document).click());
+
+    })
+</script>
+</body>
+</html>

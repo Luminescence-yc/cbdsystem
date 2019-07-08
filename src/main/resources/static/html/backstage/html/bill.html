@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CBD账单</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+        #queryBox{
+            width: 300px;
+            float: right;
+        }
+        #queryBox>div{
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="table"><table id="demo" lay-filter="test"></table></div>
+<div class="findInfo">
+    <div class="layui-form-item infoItem">
+        <div class="layui-form-item infoItem" id="queryBox">
+            <div>
+                <input type="text" name="startTime" id="startTime" autocomplete="off" class="layui-input" placeholder="起始日期">
+            </div>
+            <div>
+                <input type="text" name="endTime" id="endTime" autocomplete="off" class="layui-input" placeholder="结束日期">
+            </div>
+            <div>
+                <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="adminInfo" id="inquery">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="according" style="display: none">
+    <h1 style="margin-left: 170px">合计账单</h1>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">交易总笔数：</label>
+        <div class="layui-input-block">
+            <input type="text" id="totalNumber" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">支出金额总计：</label>
+        <div class="layui-input-block">
+            <input type="text" id="debit" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top: 50px">
+        <label class="layui-form-label">收入金额总计：</label>
+        <div class="layui-input-block">
+            <input type="text" id="income" style="width: 250px" disabled autocomplete="off" class="layui-input layui-disabled">
+        </div>
+    </div>
+    <!--<div class="layui-form-item" style="margin-top: 70px">-->
+        <!--<div class="layui-input-block">-->
+            <!--<button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="adminInfo" style="margin-left: 60px" id="back">返回</button>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container tool-btn">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="adminInfo" id="totalBill">合计账单</button>
+    </div>
+</script>
+<script src="../layui/layui.all.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bil`l.js"></script>
+</body>
+</html>

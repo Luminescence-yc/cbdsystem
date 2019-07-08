@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历史交易记录</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+</head>
+<body>
+<div>
+    <button type="submit" class="btn btn-lg" id="btn1">招租记录</button>
+    <button type="submit" class="btn btn-primary btn-lg" style="margin: 30px 50px;" id="btn2">租赁记录</button>
+    <button type="submit" class="btn btn-lg" id="btn3">买卖记录</button>
+</div>
+<table id="table"></table>
+<button type="button" data-toggle="modal"  data-target="#myModal" class="btn btn-primary btn-lg" style="float: right;margin: 30px 100px;" id="btn4">投诉</button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">发起投诉</h4>
+            </div>
+            <div class="modal-body">
+                <h2 style="margin-left: 230px">发起投诉</h2><br>
+                <form action="">
+                    <label style="font-size: 30px">投诉理由：</label>
+                    <input type="text" style="height: 200px;width: 400px" id="complaintReason"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button"  id="sure" class="btn btn-primary">确认投诉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/leaseRecord.js"></script>
+</body>
+</html>

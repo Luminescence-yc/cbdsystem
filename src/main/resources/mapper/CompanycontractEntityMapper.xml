@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.CompanycontractEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.CompanycontractEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="companyId" property="companyid" jdbcType="INTEGER" />
+    <result column="contractNum" property="contractnum" jdbcType="VARCHAR" />
+    <result column="startDate" property="startdate" jdbcType="DATE" />
+    <result column="endDate" property="enddate" jdbcType="DATE" />
+    <result column="companyPrice" property="companyprice" jdbcType="DOUBLE" />
+    <result column="oldContractNum" property="oldcontractnum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, companyId, contractNum, startDate, endDate, companyPrice, oldContractNum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_companycontract
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_companycontract
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.CompanycontractEntity" >
+    insert into t_companycontract (id, companyId, contractNum, 
+      startDate, endDate, companyPrice, 
+      oldContractNum)
+    values (#{id,jdbcType=INTEGER}, #{companyid,jdbcType=INTEGER}, #{contractnum,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=DATE}, #{enddate,jdbcType=DATE}, #{companyprice,jdbcType=DOUBLE}, 
+      #{oldcontractnum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.CompanycontractEntity" >
+    insert into t_companycontract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyid != null" >
+        companyId,
+      </if>
+      <if test="contractnum != null" >
+        contractNum,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+      <if test="companyprice != null" >
+        companyPrice,
+      </if>
+      <if test="oldcontractnum != null" >
+        oldContractNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="contractnum != null" >
+        #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="companyprice != null" >
+        #{companyprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldcontractnum != null" >
+        #{oldcontractnum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.CompanycontractEntity" >
+    update t_companycontract
+    <set >
+      <if test="companyid != null" >
+        companyId = #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="contractnum != null" >
+        contractNum = #{contractnum,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="companyprice != null" >
+        companyPrice = #{companyprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldcontractnum != null" >
+        oldContractNum = #{oldcontractnum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.CompanycontractEntity" >
+    update t_companycontract
+    set companyId = #{companyid,jdbcType=INTEGER},
+      contractNum = #{contractnum,jdbcType=VARCHAR},
+      startDate = #{startdate,jdbcType=DATE},
+      endDate = #{enddate,jdbcType=DATE},
+      companyPrice = #{companyprice,jdbcType=DOUBLE},
+      oldContractNum = #{oldcontractnum,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

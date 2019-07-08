@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.PersonalEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.PersonalEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="relName" property="relname" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="idCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="jobDescription" property="jobdescription" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="complainNum" property="complainnum" jdbcType="INTEGER" />
+    <result column="tradeNum" property="tradenum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, relName, address, tel, idCard, jobDescription, email, complainNum, tradeNum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_personal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_personal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.PersonalEntity" >
+    insert into t_personal (id, userId, relName, 
+      address, tel, idCard, 
+      jobDescription, email, complainNum, 
+      tradeNum)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{relname,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{jobdescription,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{complainnum,jdbcType=INTEGER}, 
+      #{tradenum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.PersonalEntity" >
+    insert into t_personal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="relname != null" >
+        relName,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="idcard != null" >
+        idCard,
+      </if>
+      <if test="jobdescription != null" >
+        jobDescription,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="complainnum != null" >
+        complainNum,
+      </if>
+      <if test="tradenum != null" >
+        tradeNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="relname != null" >
+        #{relname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="jobdescription != null" >
+        #{jobdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="complainnum != null" >
+        #{complainnum,jdbcType=INTEGER},
+      </if>
+      <if test="tradenum != null" >
+        #{tradenum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.PersonalEntity" >
+    update t_personal
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="relname != null" >
+        relName = #{relname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="jobdescription != null" >
+        jobDescription = #{jobdescription,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="complainnum != null" >
+        complainNum = #{complainnum,jdbcType=INTEGER},
+      </if>
+      <if test="tradenum != null" >
+        tradeNum = #{tradenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.PersonalEntity" >
+    update t_personal
+    set userId = #{userid,jdbcType=INTEGER},
+      relName = #{relname,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      idCard = #{idcard,jdbcType=VARCHAR},
+      jobDescription = #{jobdescription,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      complainNum = #{complainnum,jdbcType=INTEGER},
+      tradeNum = #{tradenum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人车位</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../css/fileinput.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+<div id="toolbar" class="btn-group">
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#addModal" id="btn_add">添加
+    </button>
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#sellModal" id="btn_sell">出售
+    </button>
+    <button class="btn btn-default" aria-hidden="true" data-toggle="modal" data-target="#rentModal" id="btn_rent">出租
+    </button>
+    <button class="btn btn-default" aria-hidden="true" id="btn_delete">下架</button>
+</div>
+<table id="tb"></table>
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">出租车位信息<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div style="margin-left: 150px;width: 50%;">
+                        <div>
+                            <label>车位产权编号</label><input class="form-control" type="text" id="propertyNum">
+                        </div>
+                        <p style="display: none;color: red" id="itemNameOne">请输入正确的10-20位编号，不能以符号开头</p>
+                        <div>
+                            <label>车位所在小区地址</label><input class="form-control" type="text" id="address">
+                        </div>
+                        <p style="display: none;color: red" id="itemNameOne1">请输入5-50正确地址，不能以符号开头</p>
+                        <div>
+                            <label>小区车位编号</label><input class="form-control" type="text" id="parkingNum">
+                        </div>
+                        <p style="display: none;color: red" id="itemNameOne2">请输入正确的3-8位编号，不能以符号开头</p>
+                        <div>
+                            <label>区域编号</label><input class="form-control" type="text" id="areaNum">
+                        </div>
+                        <p style="display: none;color: red" id="itemNameOne3">请输入正确的3-8位编号，不能以符号开头</p>
+                        <div>
+                            <label>车位产权复印件</label>
+                            <input id="file-Portrait1" type="file" value="选择文件">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="add">申请添加</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">出售车位信息<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div>
+                        <label>车位信息</label><input class="form-control" type="text" id="input" disabled>
+                    </div>
+                    <div>
+                        <label>价格</label><input id="price" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="sellBtn" class="btn btn-primary">出售</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<div class="modal fade" id="rentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="input-group">
+                    <div>
+                        <h1 style="margin-left: 180px">出租车位<p><span id="1"></span></p></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div style="overflow: hidden">
+                    <div>
+                        <label>车位信息</label><input class="form-control" id="input1" type="text" disabled>
+                    </div>
+                    <div>
+                        <label>租借开始时间</label><input class="form-control form_datetime" id="start" type="text" readonly="readonly">
+                    </div>
+                    <div>
+                        <label>租借结束时间</label><input class="form-control form_datetime" id="end" type="text" readonly="readonly">
+                    </div>
+                    <div>
+                        <label>价格</label><input class="form-control" id="rentPrice" type="text">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="rentBtn">确定发布</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/fileinput.min.js"></script>
+<script src="../js/zh.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script>
+    $(function () {
+        $('.form_datetime').datetimepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            todayBtn: 1,
+            autoclose: 1,
+        });
+        var status1;
+        var id;
+        var Id;
+        $('#tb').bootstrapTable({
+            url: '../../../personalParking/showRentParkingInfoByPersonalId',
+            method: "post",//请求方式
+            // striped:true,//是否显示行间隔色
+            pageSize: 10,//每页显示的数量
+            pageList: [10, 20],//提供选择每页显示多少条
+            showRefresh: false,//是否显示刷新按钮
+            cache: false,//是否使用缓存
+            showToggle: false,//是否显示详细视图和列表视图的切换按钮
+            pagination: true,//是否显示分页
+            height: 500,//表格的高度
+            pageNumber: 1,//初始化显示第几页，默认第1页
+            singleSelect: true,//复选框只能选择一条记录
+            sidePagination: 'server',//分页显示方式，可以选择客户端和服务端（server|client）
+            contentType: "application/x-www-form-urlencoded",//使用post请求时必须加上
+            dataType: "json",//接收的数据类型
+            queryParamsType: 'limit',//参数格式，发送标准的Restful类型的请求
+            queryParams: function (params) {
+                var nowPage = params.offset;
+                return {
+                    page: (params.offset / params.limit) + 1,//第几页
+                    size: params.limit,//每页显示多少条
+                    // personalId: 2,//当前登陆的用户的个人车位id，还未修改
+                }
+            }, onLoadSuccess: function () {
+                $("#ifm", parent.document).attr("height", $(document).height());
+            },
+            toolbar: '#toolbar',
+            columns: [
+                {
+                    field: 'propertyNum',
+                    title: '产权编号'
+                }, {
+                    field: 'address',
+                    title: '小区地址'
+                }, {
+                    field: 'areaNum',
+                    title: '区域编号'
+                }, {
+                    field: 'parkingNum',
+                    title: '车位编号'
+                }, {
+                    field: 'status',
+                    title: '状态'
+                },
+            ],
+            onClickRow: function (row, $element) {
+                $('.info').removeClass('info');
+                $($element).addClass('info');
+                Id = row.id;
+                id = row.address;
+                status1 = row.status;
+            },
+            //回调函数
+            responseHandler: function (res) {
+                console.log(res);//查看从服务端得到的数据
+                return {
+                    "total": res.data.pages.total,//当采用服务端分时必须给total赋值即从服务端得到总条数，表格将自动根据总条数进行分页
+                    "rows": res.data.pages.records//每行显示的数据集合，注意必须是（total和rows不能是其他的字段，否则将不能显示数据或分页）
+                }
+            }
+        });
+
+
+        $("#propertyNum").blur(function () {
+            var text=$("#propertyNum").val();
+            var pattern=/^[\u4E00-\u9FA5A-Za-z0-9].{9,19}$/ig;
+            if (pattern.test(text)) {
+                $("#itemNameOne").css("display","none");
+            }else{
+                $("#itemNameOne").css("display","block");
+            }
+        });
+
+        $("#address").blur(function () {
+            var text=$("#address").val();
+            var pattern=/^[\u4E00-\u9FA5A-Za-z0-9].{4,49}$/ig;
+            if (pattern.test(text)) {
+                $("#itemNameOne1").css("display","none");
+            }else{
+                $("#itemNameOne1").css("display","block");
+            }
+        });
+
+        $("#parkingNum").blur(function () {
+            var text=$("#parkingNum").val();
+            var pattern=/^[\u4E00-\u9FA5A-Za-z0-9].{2,7}$/ig;
+            if (pattern.test(text)) {
+                $("#itemNameOne2").css("display","none");
+            }else{
+                $("#itemNameOne2").css("display","block");
+            }
+        });
+
+        $("#areaNum").blur(function () {
+            var text=$("#areaNum").val();
+            var pattern=/^[\u4E00-\u9FA5A-Za-z0-9].{2,7}$/ig;
+            if (pattern.test(text)) {
+                $("#itemNameOne3").css("display","none");
+            }else{
+                $("#itemNameOne3").css("display","block");
+            }
+        });
+
+
+        $("#add").click(function () {
+            var form = new FormData();
+            var file = $("#file-Portrait1").get(0).files[0];
+            if (file == null) {
+                alert("请上传图片");
+                return false;
+            }
+
+            var regBox =  /^[\u4E00-\u9FA5A-Za-z0-9].{9,19}$/;
+            var r;
+            if ($("#propertyNum").val().length<10&&$("#propertyNum").val().length>20) {
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+            r = regBox.test($("#propertyNum").val());
+            if(!r){
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+
+            if ($("#address").val().length<5&&$("#address").val().length>50) {
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+            var regBox1 = /^[\u4E00-\u9FA5A-Za-z0-9].{4,49}$/ig;
+            var e;
+            e = regBox1.test($("#address").val());
+            if(!e){
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+
+            var regBox7 =  /^[\u4E00-\u9FA5A-Za-z0-9].{2,7}$/;
+            var ju;
+            if ($("#parkingNum").val().length<3&&$("#parkingNum").val().length>8) {
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+            ju = regBox7.test($("#parkingNum").val());
+            if(!ju){
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+
+            var ju1;
+            if ($("#areaNum").val().length<3&&$("#areaNum   ").val().length>8) {
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+            ju1 = regBox7.test($("#areaNum").val());
+            if(!ju1){
+                alert("请输入内容或你输入的内容不合法")
+                return false;
+            }
+
+            var propertyNum = $("#propertyNum").val();
+            var address = $("#address").val();
+            var areaNum = $("#areaNum").val();
+            var parkingNum = $("#parkingNum").val();
+            form.append("file[]", file);
+            form.append("propertyNum", propertyNum);
+            form.append("address", address);
+            form.append("areaNum", areaNum);
+            form.append("parkingNum", parkingNum);
+            console.log(address)
+            console.log(form)
+            $.ajax({
+                url: "/personalParking/addPersonalParking",
+                type: "post",
+                contentType: false,
+                processData: false,
+                data: form,
+                success: function (data) {
+                    if (data.code == 200) {
+                        alert("添加成功");
+                        window.location.href="myParking.html";
+                    } else {
+                        alert("添加失败")
+                        window.location.href="myParking.html";
+                    }
+                }
+            })
+        });
+
+        $("#btn_sell").click(function () {
+            if (id == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                $("#input").val(id);
+                if (status1 == "未发布") {
+                    $("#sellBtn").click(function () {
+                        $.ajax({
+                            type: "post",
+                            url: "../../../sellParking/addSellParking",
+                            dataType: "json",
+                            data: {
+                                sellPrice: $("#price").val(),
+                                parkingId: Id, //当前登陆的用户的个人车位id，还未修改
+                                sellStatus: "出售中"
+                            },
+                            success: function (data) {
+                                if (data.message == "ok") {
+                                    alert("添加成功")
+                                    window.location.href = "myParking.html"
+                                }
+                            }
+                        });
+                    })
+                } else {
+                    alert("该车位已发布或未通过审核");
+                    return false;
+                }
+            }
+        });
+
+
+        $("#btn_rent").click(function () {
+            if (id == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                $("#input1").val(id);
+                if (status1 == "未发布") {
+                    $("#rentBtn").click(function () {
+                        $.ajax({
+                            type: "post",
+                            url: "../../../rentPark/addRentParking",
+                            dataType: "json",
+                            data: {
+                                rentPrice: $("#rentPrice").val(),
+                                parkingId: Id, //当前登陆的用户的个人车位id，还未修改
+                                startTime: $("#start").val(),
+                                endTime: $("#end").val()
+                            },
+                            success: function (data) {
+                                if (data.message == "ok") {
+                                    alert("添加成功")
+                                    window.location.href = "myParking.html"
+                                }
+                            }
+                        });
+                    })
+                } else {
+                    alert("该车位已发布或未通过审核");
+                    return false;
+                }
+            }
+        });
+
+
+        $("#btn_delete").click(function () {
+            if (id == null) {
+                alert("请选中行")
+                return false;
+            } else {
+                if (status1 == "出租中" || status1 == "出售中") {
+                    $.ajax({
+                        type: "post",
+                        url: "../../../personalParking/updatePersonalParkingStatus",
+                        dataType: "json",
+                        data: {
+                            id: Id,
+                            status: status1
+                        },
+                        success: function (data) {
+                            if (data.message == "ok") {
+                                alert("下架成功")
+                            }
+                        }
+                    });
+                    window.location.href = "myParking.html"
+                } else {
+                    alert("请选中出售或出租中的车位");
+                    return false;
+                }
+            }
+        });
+
+        $("#file-Portrait1").fileinput({
+            language: 'zh', //设置语言
+            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            maxFileSize: 2000,//最大文件大小
+        });
+    })
+</script>
+</body>
+</html>

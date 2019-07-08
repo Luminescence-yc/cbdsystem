@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/admin.css" />
+</head>
+<body>
+
+<h1 style="text-align:center;font-size: 40px;">车位合同</h1>
+<hr class="layui-bg-green">
+
+<div class="wrap-container">
+    <form class="layui-form" style="width: 90%;padding-top: 20px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 120px;">合同编号:</label>
+            <div class="layui-input-block">
+                <input type="text" id="contractNum" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;" readonly="readonly">
+            </div>
+        </div>
+
+        <div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 120px;">甲方（卖方）:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="seller" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 120px;">出售人真实姓名:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="sellerName" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 120px;">身份证号:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="sellerIDCrd" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 120px;">联系电话:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="sellerTel" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+        </div>
+
+            <div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 120px;">乙方（买方）:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="buyer" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 120px;">购买人真实姓名:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="buyerName" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 120px;">身份证号:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="buyerIDCard" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 120px;">联系电话:</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="buyerTel" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+
+       <div>
+           <h1 style="font-size: 20px;">车辆信息:</h1>
+           <div class="layui-form-item">
+               <label class="layui-form-label" style="width: 120px;">车位所在小区地址:</label>
+               <div class="layui-input-block">
+                   <input type="text" id="address" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+               </div>
+           </div>
+
+           <div class="layui-form-item layui-form-text">
+               <label class="layui-form-label" style="width: 120px;">车位编号:</label>
+               <div class="layui-input-block">
+                   <input type="text" id="parkingNum" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+               </div>
+           </div>
+
+           <div class="layui-form-item">
+               <label class="layui-form-label" style="width: 120px;">产权证标编号：</label>
+               <div class="layui-input-block">
+                   <input type="text" id="propertyNum" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+               </div>
+           </div>
+
+           <div class="layui-upload" style="margin-left: 100px">
+               <div class="layui-upload-list" style="margin-left: 50px">
+                   <img src="" class="layui-upload-img" id="img" style="width: 300px;height: 150px;" alt="">
+               </div>
+           </div>
+
+       </div>
+
+        <div>
+            <div class="layui-form-item layui-form-text" style="margin-top: 2%">
+                <label class="layui-form-label" style="width: 120px;" >成交价格:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="price" name="title" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 120px;">合同申请时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="applyTime" name="title" required lay-verify="required"  autocomplete="off" class="layui-input" style="width: 90%;"readonly="readonly">
+                </div>
+            </div>
+            <h1 style="font-size: 15px;color: red; margin-top: 5%;margin-left: 20px">注：合同一式两份，甲乙上方各执一份。当交易双方都同意网上签约合同，则该合同生效。</h1>
+        </div>
+
+
+
+        <div class="layui-form-item" style="margin-top: 5%;">
+            <div class="layui-input-block">
+                <button  type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo" id="agree" style="margin-left: 180px">同意受理</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-3.3.1.min.js" ></script>
+<script>
+    layui.use('form', function(){
+        var id=window.location.href.split("?")[1];
+        console.log(id);
+        var form = layui.form;
+
+        $.ajax({
+            type:"post",
+            url:"../../../contract/findAllBySellId",
+            data:{"id":id},
+            dataType:"json",
+            success:function (result){
+                console.log(result);
+                $("#contractNum").val(result.data.contract.contractNum);
+                $("#seller").val(result.data.contract.seller.username);
+                $("#sellerName").val(result.data.contract.seller.relName);
+                $("#sellerIDCrd").val(result.data.contract.seller.idCard);
+                $("#sellerTel").val(result.data.contract.seller.tel);
+                $("#buyer").val(result.data.contract.buyer.username);
+                $("#buyerName").val(result.data.contract.buyer.relName);
+                $("#buyerIDCard").val(result.data.contract.buyer.idCard);
+                $("#buyerTel").val(result.data.contract.buyer.tel);
+                $("#address").val(result.data.contract.sellParkingBean.parkingBean.address);
+                $("#parkingNum").val(result.data.contract.sellParkingBean.parkingBean.parkingNum);
+                $("#propertyNum").val(result.data.contract.sellParkingBean.parkingBean.propertyNum);
+                $("#img").attr("src","/images/"+result.data.contract.sellParkingBean.parkingBean.propertyImage);//此处需要添加图片
+                $("#price").val(result.data.contract.sellParkingBean.sellPrice);
+                $("#applyTime").val(result.data.contract.applyDate);
+
+            }
+        });
+
+        $("#agree").click(function () {
+            $.ajax({
+                type:"post",
+                url:"../../../contract/updateStatus",
+                data:{"id":id},
+                dataType:"json",
+                success:function (data) {
+                    if (data.code==200){
+                        layer.open({
+                            title: '提示'
+                            ,content: '受理成功',
+                            yes:function () {
+                                window.parent.location.reload();//刷新父页面
+                            }
+                        });
+                        // window.parent.location.reload();//刷新父页面
+                        // var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        // parent.layer.close(index);
+                    }
+                    else {
+                        layer.open({
+                            title: '提示'
+                            ,content: '受理失败'
+                        });
+
+                    }
+
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

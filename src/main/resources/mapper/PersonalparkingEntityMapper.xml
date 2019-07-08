@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.PersonalparkingEntityMapper" >
+  <resultMap id="BaseResultMap" type="main.java.com.project.entity.PersonalparkingEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="personalId" property="personalid" jdbcType="INTEGER" />
+    <result column="propertyNum" property="propertynum" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="areaNum" property="areanum" jdbcType="VARCHAR" />
+    <result column="parkingNum" property="parkingnum" jdbcType="VARCHAR" />
+    <result column="propertyImage" property="propertyimage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="applyDate" property="applydate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, personalId, propertyNum, address, areaNum, parkingNum, propertyImage, status, 
+    applyDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_personalparking
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_personalparking
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.project.entity.PersonalparkingEntity" >
+    insert into t_personalparking (id, personalId, propertyNum, 
+      address, areaNum, parkingNum, 
+      propertyImage, status, applyDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{personalid,jdbcType=INTEGER}, #{propertynum,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{areanum,jdbcType=VARCHAR}, #{parkingnum,jdbcType=VARCHAR}, 
+      #{propertyimage,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{applydate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.project.entity.PersonalparkingEntity" >
+    insert into t_personalparking
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="personalid != null" >
+        personalId,
+      </if>
+      <if test="propertynum != null" >
+        propertyNum,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="areanum != null" >
+        areaNum,
+      </if>
+      <if test="parkingnum != null" >
+        parkingNum,
+      </if>
+      <if test="propertyimage != null" >
+        propertyImage,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="applydate != null" >
+        applyDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personalid != null" >
+        #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="propertynum != null" >
+        #{propertynum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areanum != null" >
+        #{areanum,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingnum != null" >
+        #{parkingnum,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyimage != null" >
+        #{propertyimage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null" >
+        #{applydate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.project.entity.PersonalparkingEntity" >
+    update t_personalparking
+    <set >
+      <if test="personalid != null" >
+        personalId = #{personalid,jdbcType=INTEGER},
+      </if>
+      <if test="propertynum != null" >
+        propertyNum = #{propertynum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areanum != null" >
+        areaNum = #{areanum,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingnum != null" >
+        parkingNum = #{parkingnum,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyimage != null" >
+        propertyImage = #{propertyimage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="applydate != null" >
+        applyDate = #{applydate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.project.entity.PersonalparkingEntity" >
+    update t_personalparking
+    set personalId = #{personalid,jdbcType=INTEGER},
+      propertyNum = #{propertynum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      areaNum = #{areanum,jdbcType=VARCHAR},
+      parkingNum = #{parkingnum,jdbcType=VARCHAR},
+      propertyImage = #{propertyimage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      applyDate = #{applydate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

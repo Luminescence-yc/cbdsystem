@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">。
+
+</head>
+<body>
+
+<form role="form" style="margin-top: 60px">
+    <div class="form-group" style="width: 200px;margin-left: 120px">
+        <select class="form-control">
+            <option>系统消息</option>
+            <option>个人消息</option>
+        </select>
+        <button type="button" class="btn btn-primary" style="width: 100px;margin-top: -50px;margin-left: 250px">搜索</button>
+    </div>
+</form>
+<table id="tb"></table>
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script>
+    $(function () {
+        $('#tb').bootstrapTable({
+            url: 'data1.json',
+            onLoadSuccess:function(){
+                $("#ifm",parent.document).attr("height",$(document).height());
+            },
+            pagination: true,
+            columns: [{
+                field: 'id',
+                title: '发送者'
+            }, {
+                field: '',
+                title: '消息内容'
+            },{
+                field: 'operate',
+                title: '操作',
+                width: '180px',
+                events: operateEvents,
+                formatter: operateFormatter
+            } ]
+        });
+    })
+    window.operateEvents= {
+        //查看
+        "click #btnEditPicGroupDetail": function (e, value, row, index) {
+            var rows = $('#table-picManager').bootstrapTable('getSelections');
+        }
+    }
+    function operateFormatter(value, row, index) {
+        return [
+            '<div class="btn-group">',
+            '<button id="btnEditPicGroupDetail" type="button" class="btn btn-default"  singleSelected=true>查看</button>',
+            '</div>'
+        ].join('');
+    }
+</script>
+</body>
+</html>

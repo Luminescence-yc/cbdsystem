@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>网站后台管理模版</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/admin.css"/>
+</head>
+<body>
+<div class="wrap-container welcome-container">
+    <div class="row">
+        <div class="welcome-left-container col-lg-9">
+            <div class="data-show">
+                <ul class="clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-org f-l">
+                                <span class="iconfont">&#xe606;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">在线人数</p>
+                                <p><span class="color-org">697</span>数据<span class="iconfont">&#xe628;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="onlineNumberChart" style="height: 376px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="welcome-left-container col-lg-9">
+            <div class="data-show">
+                <ul class="clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-org f-l">
+                                <span class="iconfont">&#xe606;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">历史最高在线人数</p>
+                                <p><span class="color-org">697</span>数据<span class="iconfont">&#xe60f;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="hisOnlineNumberChart" style="height: 376px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="welcome-left-container col-lg-9">
+            <div class="data-show">
+                <ul class="clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-org f-l">
+                                <span class="iconfont">&#xe606;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">方法执行平均耗时</p>
+                                <p><span class="color-org">697</span>数据<span class="iconfont">&#xe628;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="elapsedTime" style="height: 376px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="welcome-left-container col-lg-9">
+            <div class="data-show">
+                <ul class="clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-org f-l">
+                                <span class="iconfont">&#xe606;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name" id="functionName">方法耗时记录</p>
+                                <p><span class="color-org">697</span>数据<span class="iconfont">&#xe628;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="FunctionElapsedTime" style="height: 376px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../lib/echarts/echarts.js"></script>
+<script type="text/javascript">
+    var onlineNumberChart = echarts.init(document.getElementById('onlineNumberChart'));
+    var hisOnlineNumberChart = echarts.init(document.getElementById('hisOnlineNumberChart'));
+    var elapsedTime = echarts.init(document.getElementById('elapsedTime'));
+    var FunctionElapsedTime = echarts.init(document.getElementById('FunctionElapsedTime'));
+    layui.use(['layer', 'jquery'], function () {
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        getOnlineUserByDay();
+        //在线人数统计图
+        $.get('/onlineUser/findAllDayMaxOnlineUser', function (data) {
+            hisOnlineNumberChart.setOption(option = {
+                title: {
+                    text: '历史最高在线人数统计'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    data: data.data.list.map(function (item) {
+                       return item.countDate;
+
+                    })
+                },
+                yAxis: {
+                    splitLine: {
+                        show: false
+                    }
+                },
+                toolbox: {
+                    left: 'center',
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [{
+                    // startValue: '2014-06-01'
+                }, {
+                    type: 'inside'
+                }],
+                visualMap: {
+                    top: 10,
+                    right: 10,
+                    pieces: [{
+                        gt: 0,
+                        lte: 50,
+                        color: '#096'
+                    }, {
+                        gt: 50,
+                        lte: 100,
+                        color: '#ffde33'
+                    }, {
+                        gt: 100,
+                        lte: 150,
+                        color: '#ff9933'
+                    }, {
+                        gt: 150,
+                        lte: 200,
+                        color: '#cc0033'
+                    }, {
+                        gt: 200,
+                        lte: 300,
+                        color: '#660099'
+                    }, {
+                        gt: 300,
+                        color: '#7e0023'
+                    }],
+                    outOfRange: {
+                        color: '#999'
+                    }
+                },
+                series: {
+                    name: '最高在线人数',
+                    type: 'line',
+                    data: data.data.list.map(function (item) {
+                        return item.onlineUserNum;
+                    }),
+                    markLine: {
+                        silent: true,
+                        data: [{
+                            yAxis: 50
+                        }, {
+                            yAxis: 100
+                        }, {
+                            yAxis: 150
+                        }, {
+                            yAxis: 200
+                        }, {
+                            yAxis: 300
+                        }]
+                    }
+                }
+            });
+        });
+        //在线人数统计图节点点击事件
+        hisOnlineNumberChart.on("click","series.line",function (e) {
+            getOnlineUserByDay(e.name);
+            $('#onlineNumberChart')[0].scrollIntoView(true);
+        });
+        //方法平均耗时表
+        $.get('/responseTime/findAVGResponseTimeByNum',{num:5}, function (data) {
+            elapsedTime.setOption(option = {
+                title: {
+                    text: '方法最近平均耗时'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    data: data.data.list.map(function (item) {
+                        return item.function;
+
+                    })
+                },
+                yAxis: {
+                    splitLine: {
+                        show: false
+                    }
+                },
+                toolbox: {
+                    left: 'center',
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [{
+                    // startValue: '2014-06-01'
+                }, {
+                    type: 'inside'
+                }],
+                visualMap: {
+                    top: 10,
+                    right: 10,
+                    pieces: [{
+                        gt: 0,
+                        lte: 500,
+                        color: '#096'
+                    }, {
+                        gt: 500,
+                        lte: 1000,
+                        color: '#ffde33'
+                    }, {
+                        gt: 1000,
+                        lte: 1500,
+                        color: '#ff9933'
+                    }, {
+                        gt: 1500,
+                        lte: 2000,
+                        color: '#cc0033'
+                    }, {
+                        gt: 2000,
+                        lte: 3000,
+                        color: '#660099'
+                    }, {
+                        gt: 3000,
+                        color: '#7e0023'
+                    }],
+                    outOfRange: {
+                        color: '#999'
+                    }
+                },
+                series: {
+                    name: '耗时',
+                    type: 'bar',
+                    data: data.data.list.map(function (item) {
+                        return item.responseTime;
+                    }),
+                    markLine: {
+                        silent: true,
+                        data: [{
+                            yAxis: 500
+                        }, {
+                            yAxis: 1000
+                        }, {
+                            yAxis: 1500
+                        }, {
+                            yAxis: 2000
+                        }, {
+                            yAxis: 3000
+                        }]
+                    }
+                }
+            });
+        });
+        //节点点击事件
+        elapsedTime.on("click","series.bar",function (e) {
+            getFunctionTime(e.name);
+            $('#FunctionElapsedTime')[0].scrollIntoView(true);
+        });
+        $(window).resize(function () {
+            onlineNumberChart.resize();
+        });
+        function getOnlineUserByDay(day){
+            console.log(day);
+            var onlineNumber = {
+                timeList: [],
+                number: []
+            };
+            $.ajaxSettings.async = false;
+            $.getJSON("/onlineUser/findOnlineUserByDay",{day:day}, function (e) {
+                var list = e.data.list;
+                for (i in list) {
+                    onlineNumber.timeList.push(list[i].countTime);
+                    onlineNumber.number.push(list[i].onlineUserNum);
+                }
+            });
+            $.ajaxSettings.async = true;
+            onlineNumberChart.setOption(
+                {
+                    title: {
+                        text: "当天在线人数统计",
+                        textStyle: {
+                            color: "rgb(85, 85, 85)",
+                            fontSize: 18,
+                            fontStyle: "normal",
+                            fontWeight: "normal"
+                        }
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["在线人数"],
+                        selectedMode: false,
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {
+                                show: false,
+                                readOnly: true
+                            },
+                            magicType: {
+                                show: false,
+                                type: ["line", "bar", "stack", "tiled"]
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            },
+                            mark: {
+                                show: false
+                            }
+                        }
+                    },
+                    calculable: false,
+                    xAxis: [
+                        {
+                            type: "category",
+                            boundaryGap: false,
+                            data: onlineNumber.timeList
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: "value"
+                        }
+                    ],
+                    grid: {
+                        x2: 30,
+                        x: 50
+                    },
+                    series: [
+                        {
+                            name: "在线人数",
+                            type: "line",
+                            smooth: true,
+                            itemStyle: {
+                                normal: {
+                                    areaStyle: {
+                                        type: "default"
+                                    },
+                                    color: "rgb(110, 211, 199)"
+                                }
+                            },
+                            data: onlineNumber.number
+                        }
+                    ]
+                });
+        }
+        function getFunctionTime(functionName){
+            var times=[];
+            $.ajaxSettings.async = false;
+            $.getJSON("/responseTime/findResponseTimeByFunctionName",{function:functionName}, function (e) {
+                console.log(e);
+                var list = e.data.page.records;
+                for (i in list) {
+                    times.push(list[i].responseTime);
+
+                }
+            });
+            $.ajaxSettings.async = true;
+            FunctionElapsedTime.setOption(
+                {
+                    title: {
+                        text: functionName,
+                        textStyle: {
+                            color: "rgb(85, 85, 85)",
+                            fontSize: 18,
+                            fontStyle: "normal",
+                            fontWeight: "normal"
+                        }
+                    },
+                    tooltip: {
+                        trigger: "axis"
+                    },
+                    legend: {
+                        data: ["耗时"],
+                        selectedMode: false
+                    },
+                    // toolbox: {
+                    //     show: true,
+                    //     feature: {
+                    //         dataView: {
+                    //             show: false,
+                    //             readOnly: true
+                    //         },
+                    //         magicType: {
+                    //             show: false,
+                    //             type: ["line", "bar", "stack", "tiled"]
+                    //         },
+                    //         restore: {
+                    //             show: true
+                    //         },
+                    //         saveAsImage: {
+                    //             show: true
+                    //         },
+                    //         mark: {
+                    //             show: false
+                    //         }
+                    //     }
+                    // },
+                    calculable: false,
+                    xAxis: [
+                        {
+                            type: "category",
+                            boundaryGap: false,
+                            data: times
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: "value"
+                        }
+                    ],
+                    grid: {
+                        x2: 30,
+                        x: 50
+                    },
+                    series: [
+                        {
+                            name: "耗时",
+                            type: "line",
+                            smooth: true,
+                            itemStyle: {
+                                normal: {
+                                    areaStyle: {
+                                        type: "default"
+                                    },
+                                    color: "rgb(110, 211, 199)"
+                                }
+                            },
+                            data: times
+                        }
+                    ]
+                });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改企业</title>
+    <script rel="script" src="../js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <script rel="script" src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../css/suiness/addSuiness.css">
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <h1>修改企业</h1>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业登录名</label>
+        <div class="layui-input-block">
+            <input id="username" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入登录名" class="layui-input" class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业登录密码</label>
+        <div class="layui-input-block">
+            <input id="password" type="password" name="title" required  lay-verify="required" placeholder="请输入登录密码" autocomplete="off" class="layui-input" class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业名称</label>
+        <div class="layui-input-block">
+            <input id="companyName"  type="text" name="title" required  lay-verify="required" placeholder="请输入企业名称" autocomplete="off" class="layui-input" readonly="readonly" class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业楼层位置</label>
+        <div class="layui-input-block">
+            <input id="floor" type="text" name="title" required  lay-verify="required" placeholder="请输入企业楼层位置" autocomplete="off" class="layui-input" readonly="readonly" class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业联系人</label>
+        <div class="layui-input-block">
+            <input id="contactPerson" type="text" name="title" required  lay-verify="required" placeholder="请输入联系人" autocomplete="off" class="layui-input" class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">企业联系电话</label>
+        <div class="layui-input-block">
+            <input id="tel" type="text" name="title" required  lay-verify="required" placeholder="请输入联系电话"  class="layui-input" style="width: 250px">
+        </div>
+    </div>
+    <button class="layui-btn layui-btn-normal" style="width: 120px" id="upBtn">修改</button>
+    <button class="layui-btn layui-btn-normal" style="width: 120px" id="back">返回</button>
+</div>
+</body>
+</html>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null;
+    }
+    $(function () {
+        let id=getQueryString('id'),userId=getQueryString("userId"),username, password,floor,contactPerson, tel;
+        console.log(id);
+        console.log(userId);
+        $.ajax({
+            type: "post",
+            url: "/company/findCompanyById",
+            data: {"id":id},
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $("#username").val(result.data.company.username);
+                $("#password").val(result.data.company.password);
+                $("#floor").val(result.data.company.floor);
+                $("#companyName").val(result.data.company.companyName);
+                $("#contactPerson").val(result.data.company.contactPerson);
+                $("#tel").val(result.data.company.tel);
+            }
+        });
+
+
+            //修改按钮
+            $("#upBtn").click(function () {
+                id = id;
+                userId=userId;
+                username = document.getElementById("username").value;
+                contactPerson = document.getElementById("contactPerson").value;
+                tel = document.getElementById("tel").value;
+                password = document.getElementById("password").value;
+                drug();
+                window.parent.layer.closeAll();//关闭弹窗
+            });
+
+            $("#back").click(function () {
+                window.parent.layer.closeAll();//关闭弹窗
+            })
+            function drug() {
+                $.ajax({
+                    type: "post",
+                    url: "/company/updateCompany",
+                    dataType: "json",
+                    data: {
+                        id: id,
+                        userId:userId,
+                        username: username,
+                        password: password,
+                        contactPerson: contactPerson,
+                        tel: tel
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        console.log(id);
+                        if (data === "ok") {
+                            window.location.href = "enterpriseUser.html";
+                        }
+                    }
+                })
+            }
+        })
+</script>

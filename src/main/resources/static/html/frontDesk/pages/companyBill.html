@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业账单</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <style>
+        .input-group {
+            margin: 20px 0;
+            width: 255px;
+        }
+        .main{
+            min-height: 400px;
+        }
+    </style>
+
+</head>
+<body>
+
+<table id="tb"></table>
+<div class="main">
+    <div style="float: right;">
+        <div class="input-group">
+            <div class="input-group-addon">开始时间&nbsp;</div>
+            <div style="float: left;">
+                <input class="form-control form_datetime" id="startTime" type="text" value="" size="16">
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">结束时间&nbsp;</div>
+            <div style="float: left;">
+                <input class="form-control form_datetime" id="endTime" type="text" value="" size="16">
+            </div>
+        </div>
+        <button style="float: right;margin-right: 50px;" type="button" id="select" class="btn btn-primary">查询</button>
+    </div>
+    <div style="float: left;width: 150px;">
+        <p>总笔数：<span id="total_number"></span></p>
+        <p>总支出：<span id="total_out"></span></p>
+        <p>总收入：<span id="total_in"></span></p>
+    </div>
+</div>
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/companyBill.js"></script>
+</body>
+</html>
